@@ -1,0 +1,120 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+/* fondo que aparece al bajar */
+.navbar.con-scroll {
+  background: rgba(20, 17, 15, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom-color: var(--borde);
+}
+
+.nav-interior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--dorado-claro);
+}
+
+/* forma de escudo hecha con border-radius */
+.escudo {
+  width: 36px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  background: var(--rojo);
+  color: var(--pergamino);
+  border: 2px solid var(--dorado);
+  border-radius: 4px 4px 50% 50% / 4px 4px 40% 40%;
+  font-size: 1rem;
+}
+
+.links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+
+.links a {
+  position: relative;
+  color: var(--texto);
+  font-family: var(--fuente-titulo);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+}
+
+/* linea dorada que crece al pasar el mouse */
+.links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: var(--dorado);
+  transition: width 0.25s;
+}
+
+.links a:hover {
+  color: var(--dorado-claro);
+}
+
+.links a:hover::after {
+  width: 100%;
+}
+
+.hamburguesa {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburguesa span {
+  width: 24px;
+  height: 2px;
+  background: var(--dorado-claro);
+}
+
+/* en celular el menu pasa a ser desplegable */
+@media (max-width: 768px) {
+  .hamburguesa {
+    display: flex;
+  }
+
+  .links {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 0;
+    background: rgba(20, 17, 15, 0.97);
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .links.abierto {
+    display: flex;
+  }
+}

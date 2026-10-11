@@ -37,7 +37,9 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--fuente-titulo);
   color: var(--dorado-claro);
   letter-spacing: 0.04em;
@@ -95,7 +97,9 @@ a {
   letter-spacing: 0.08em;
   background: transparent;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
 }
 
 .boton:hover {

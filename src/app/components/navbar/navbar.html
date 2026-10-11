@@ -1,0 +1,23 @@
+<nav class="navbar" [class.con-scroll]="conScroll()">
+  <div class="contenedor nav-interior">
+    <a href="#inicio" class="logo" (click)="cerrarMenu()">
+      <!-- por ahora una letra, al final lo cambio por mi escudo -->
+      <span class="escudo">P</span>
+      <span>{{ perfil.apodo }}</span>
+    </a>
+
+    <button class="hamburguesa" (click)="alternarMenu()" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <ul class="links" [class.abierto]="menuAbierto()">
+      @for (seccion of secciones; track seccion.id) {
+        <li>
+          <a [href]="'#' + seccion.id" (click)="cerrarMenu()">{{ seccion.nombre }}</a>
+        </li>
+      }
+    </ul>
+  </div>
+</nav>
