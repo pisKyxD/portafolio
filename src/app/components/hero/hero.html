@@ -1,4 +1,102 @@
 <section id="inicio" class="hero">
+  <!-- ================= DECORACION DE FONDO ================= -->
+  <div class="decoracion" aria-hidden="true">
+    <!-- brasas que suben -->
+    @for (brasa of brasas; track $index) {
+      <span
+        class="brasa"
+        [style.left.%]="brasa.izquierda"
+        [style.width.px]="brasa.tamano"
+        [style.height.px]="brasa.tamano"
+        [style.animation-duration.s]="brasa.duracion"
+        [style.animation-delay.s]="brasa.retraso"
+        [style.--desvio.px]="brasa.desvio"
+      ></span>
+    }
+
+    <!-- pendones a los lados con mi escudo -->
+    <div class="pendon izquierdo">
+      <span class="vara"></span>
+      <div class="tela">
+        <img src="escudo.svg" alt="" width="56" height="67">
+      </div>
+    </div>
+    <div class="pendon derecho">
+      <span class="vara"></span>
+      <div class="tela">
+        <img src="escudo.svg" alt="" width="56" height="67">
+      </div>
+    </div>
+
+    <!-- castillo en silueta con colinas -->
+    <svg class="castillo" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax meet">
+      <!-- colinas de atras y de adelante -->
+      <path class="colina-lejos" d="M0 260 V190 C180 160 320 175 470 195 C620 215 820 210 980 192 C1140 174 1290 168 1440 185 V260 Z" />
+
+      <g class="muros">
+        <!-- muralla izquierda -->
+        <rect x="470" y="188" width="100" height="50" />
+        <rect x="470" y="178" width="12" height="12" />
+        <rect x="490" y="178" width="12" height="12" />
+        <rect x="510" y="178" width="12" height="12" />
+        <rect x="530" y="178" width="12" height="12" />
+        <rect x="550" y="178" width="12" height="12" />
+
+        <!-- torre izquierda -->
+        <rect x="560" y="140" width="70" height="98" />
+        <rect x="560" y="128" width="13" height="12" />
+        <rect x="579" y="128" width="13" height="12" />
+        <rect x="598" y="128" width="13" height="12" />
+        <rect x="617" y="128" width="13" height="12" />
+
+        <!-- torre del centro -->
+        <rect x="630" y="118" width="180" height="120" />
+        <rect x="630" y="106" width="14" height="12" />
+        <rect x="652" y="106" width="14" height="12" />
+        <rect x="674" y="106" width="14" height="12" />
+        <rect x="752" y="106" width="14" height="12" />
+        <rect x="774" y="106" width="14" height="12" />
+        <rect x="796" y="106" width="14" height="12" />
+
+        <!-- torre alta con techo en punta -->
+        <rect x="690" y="62" width="60" height="56" />
+        <polygon points="684,62 720,24 756,62" />
+        <rect x="719" y="4" width="2" height="22" />
+
+        <!-- torre derecha -->
+        <rect x="810" y="140" width="70" height="98" />
+        <rect x="810" y="128" width="13" height="12" />
+        <rect x="829" y="128" width="13" height="12" />
+        <rect x="848" y="128" width="13" height="12" />
+        <rect x="867" y="128" width="13" height="12" />
+
+        <!-- muralla derecha -->
+        <rect x="870" y="188" width="100" height="50" />
+        <rect x="878" y="178" width="12" height="12" />
+        <rect x="898" y="178" width="12" height="12" />
+        <rect x="918" y="178" width="12" height="12" />
+        <rect x="938" y="178" width="12" height="12" />
+        <rect x="958" y="178" width="12" height="12" />
+      </g>
+
+      <!-- bandera verde en la punta -->
+      <path class="bandera" d="M721 5 L746 10 L721 16 Z" />
+
+      <!-- puerta -->
+      <path class="puerta" d="M700 238 V202 Q720 180 740 202 V238 Z" />
+
+      <!-- ventanas con luz de antorcha -->
+      <rect class="ventana" x="715" y="76" width="10" height="14" rx="5" />
+      <rect class="ventana v2" x="591" y="165" width="8" height="12" rx="4" />
+      <rect class="ventana v3" x="841" y="165" width="8" height="12" rx="4" />
+      <rect class="ventana v2" x="662" y="145" width="8" height="12" rx="4" />
+      <rect class="ventana" x="770" y="145" width="8" height="12" rx="4" />
+
+      <path class="colina-cerca" d="M0 260 V232 C240 214 480 236 720 236 C960 236 1200 214 1440 226 V260 Z" />
+    </svg>
+  </div>
+
+  <!-- ================= CONTENIDO ================= -->
   <div class="contenedor hero-interior">
     <p class="saludo">Bienvenido, viajero</p>
 
