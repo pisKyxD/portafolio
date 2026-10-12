@@ -1,4 +1,11 @@
 // cada gesta es un proyecto, si hago uno nuevo solo lo agrego a esta lista
+export interface Repo {
+  nombre: string;
+  url: string;
+  // solo muestro el boton si el repo es publico, si no la persona llega a un 404
+  publico: boolean;
+}
+
 export interface Gesta {
   id: string;
   titulo: string;
@@ -8,7 +15,7 @@ export interface Gesta {
   hazanas: string[];
   stack: string[];
   demo?: string;
-  repos: { nombre: string; url: string }[];
+  repos: Repo[];
 }
 
 export const GESTAS: Gesta[] = [
@@ -29,8 +36,8 @@ export const GESTAS: Gesta[] = [
     // TODO: agregar los frameworks que use en el frontend y el backend
     stack: ['PostgreSQL', 'Neon', 'Google Maps API', 'Gmail API', 'Jooble API', 'Vercel', 'Render'],
     demo: 'https://trabajoaqui.vercel.app',
-    // TODO: poner el link del repo de trabajoaqui
-    repos: [{ nombre: 'Repositorio', url: 'TODO' }],
+    // TODO: poner el link del repo y cambiar publico a true si lo dejo publico
+    repos: [{ nombre: 'Repositorio', url: 'TODO', publico: false }],
   },
   {
     id: 'vidalstore',
@@ -46,11 +53,11 @@ export const GESTAS: Gesta[] = [
       'Arquitectura en capas: Angular, API Gateway, BFF y microservicios',
     ],
     stack: ['NestJS', 'Angular', 'TypeScript', 'AWS Cognito', 'JWT', 'RAWG API'],
-    // TODO: revisar que estos repos esten publicos
+    // estos repos estan privados, si los hago publicos cambio publico a true y aparecen los botones
     repos: [
-      { nombre: 'Catálogo', url: 'https://github.com/pisKyxD/vidalstore-catalogo' },
-      { nombre: 'Biblioteca', url: 'https://github.com/pisKyxD/vidalstore-biblioteca' },
-      { nombre: 'Gateway', url: 'https://github.com/pisKyxD/vidalstore-backend' },
+      { nombre: 'Catálogo', url: 'https://github.com/pisKyxD/vidalstore-catalogo', publico: false },
+      { nombre: 'Biblioteca', url: 'https://github.com/pisKyxD/vidalstore-biblioteca', publico: false },
+      { nombre: 'Gateway', url: 'https://github.com/pisKyxD/vidalstore-backend', publico: false },
     ],
   },
 ];

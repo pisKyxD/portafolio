@@ -9,6 +9,50 @@ const MAX_HISTORIAL = 6;
 // el router gratis elige un modelo al azar, si sale uno malo pruebo de nuevo
 const MAX_INTENTOS = 3;
 
+// limite por visitante para que nadie me gaste la cuota del dia
+const LIMITE_MINUTO = 5;
+const LIMITE_HORA = 20;
+const UN_MINUTO = 60 * 1000;
+const UNA_HORA = 60 * 60 * 1000;
+
+// guardo cuando pregunto cada ip, vive en la memoria de la funcion
+// no es perfecto porque vercel puede levantar varias copias, pero frena a la mayoria
+const preguntasPorIp = new Map();
+
+function superaLimite(ip) {
+  const ahora = Date.now();
+
+  // me quedo solo con las preguntas de la ultima hora
+  const recientes = (preguntasPorIp.get(ip) ?? []).filter((t) => ahora - t < UNA_HORA);
+  const ultimoMinuto = recientes.filter((t) => ahora - t < UN_MINUTO).length;
+
+  if (ultimoMinuto >= LIMITE_MINUTO || recientes.length >= LIMITE_HORA) {
+    preguntasPorIp.set(ip, recientes);
+    return true;
+  }
+
+  recientes.push(ahora);
+  preguntasPorIp.set(ip, recientes);
+
+  // limpio ips viejas de vez en cuando para que el mapa no crezca infinito
+  if (preguntasPorIp.size > 500) {
+    for (const [clave, tiempos] of preguntasPorIp) {
+      if (!tiempos.some((t) => ahora - t < UNA_HORA)) preguntasPorIp.delete(clave);
+    }
+  }
+
+  return false;
+}
+
+// vercel manda la ip real del visitante en esta cabecera
+function obtenerIp(req) {
+  const reenviada = req.headers['x-forwarded-for'];
+  if (typeof reenviada === 'string' && reenviada) {
+    return reenviada.split(',')[0].trim();
+  }
+  return req.socket?.remoteAddress ?? 'desconocida';
+}
+
 // revisa que la respuesta sea una conversacion de verdad
 // a veces el router elige un modelo clasificador que solo responde "safe" o "unsafe"
 function respuestaValida(texto) {
@@ -77,6 +121,14 @@ export default async function handler(req, res) {
   }
   if (pregunta.length > MAX_PREGUNTA) {
     return res.status(400).json({ error: 'La pregunta es muy larga' });
+  }
+
+  // si el visitante pregunta demasiado, sir bit responde en personaje sin llamar a la IA
+  if (superaLimite(obtenerIp(req))) {
+    return res.status(200).json({
+      respuesta:
+        'Tantas preguntas me han dejado sin aliento, viajero. Dame un momento para recuperar fuerzas, o escríbele directo a mi señor desde la sección Contacto.',
+    });
   }
 
   // limpio el historial para quedarme solo con mensajes validos y los ultimos 6
