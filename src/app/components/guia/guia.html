@@ -1,0 +1,35 @@
+<div class="guia" [class.cerrado]="!abierto()">
+  @if (abierto()) {
+    <div class="globo">
+      <div class="globo-cabecera">
+        <span class="nombre">{{ nombre }}</span>
+        <button class="cerrar" (click)="alternar()" aria-label="Ocultar guía">×</button>
+      </div>
+
+      <p class="texto">
+        {{ texto() }}<span class="cursor" [class.oculto]="!escribiendo()">|</span>
+      </p>
+
+      <button class="siguiente" (click)="siguiente()">
+        {{ escribiendo() ? 'Saltar' : 'Siguiente ▸' }}
+      </button>
+    </div>
+  }
+
+  <button
+    class="personaje"
+    (click)="clicPersonaje()"
+    [attr.aria-label]="abierto() ? 'Siguiente diálogo' : 'Hablar con ' + nombre"
+  >
+    <!-- el caballero, se anima moviendo el fondo cuadro por cuadro -->
+    <div
+      class="sprite"
+      [class.listo]="spriteListo()"
+      [style.width.px]="anchoCuadro"
+      [style.height.px]="altoCuadro"
+      [style.background-image]="'url(' + archivoActual() + ')'"
+      [style.background-position]="posicionFondo()"
+      [style.background-size]="tamanoHoja()"
+    ></div>
+  </button>
+</div>

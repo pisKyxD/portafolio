@@ -1,0 +1,168 @@
+/* el guia queda fijo abajo a la derecha */
+.guia {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.guia > * {
+  pointer-events: auto;
+}
+
+/* globo de dialogo con look de pergamino */
+.globo {
+  position: relative;
+  width: min(300px, calc(100vw - 32px));
+  padding: 16px;
+  color: #2a2118;
+  background: linear-gradient(180deg, var(--pergamino), var(--pergamino-oscuro));
+  border: 1px solid #a8925f;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: aparecer 0.3s ease;
+}
+
+/* la puntita del globo apuntando al caballero */
+.globo::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 60px;
+  width: 16px;
+  height: 16px;
+  background: var(--pergamino-oscuro);
+  border-right: 1px solid #a8925f;
+  border-bottom: 1px solid #a8925f;
+  transform: rotate(45deg);
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.globo-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.nombre {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  color: var(--rojo);
+  font-size: 0.85rem;
+}
+
+.cerrar {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: #5a4a33;
+  cursor: pointer;
+}
+
+.texto {
+  min-height: 3em;
+  font-size: 0.95rem;
+}
+
+.cursor {
+  margin-left: 1px;
+  animation: titilar 0.8s steps(1) infinite;
+}
+
+.cursor.oculto {
+  visibility: hidden;
+}
+
+@keyframes titilar {
+  50% {
+    opacity: 0;
+  }
+}
+
+.siguiente {
+  display: block;
+  margin: 10px 0 0 auto;
+  padding: 4px 12px;
+  font-family: var(--fuente-titulo);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--pergamino);
+  background: var(--rojo);
+  border: none;
+  cursor: pointer;
+}
+
+.siguiente:hover {
+  background: #a33636;
+}
+
+/* el boton tiene el tamaño del caballero ya agrandado */
+.personaje {
+  --escala: 1.4;
+  width: calc(112px * var(--escala));
+  height: calc(96px * var(--escala));
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* el sprite se dibuja a su tamaño real y se agranda con scale
+   el scaleX(-1) lo da vuelta para que mire hacia la izquierda, si queda al reves lo saco */
+.sprite {
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  transform: scale(var(--escala)) scaleX(-1);
+  transform-origin: bottom center;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* aparece cuando la imagen ya cargo, asi no se ve un cuadro vacio */
+.sprite.listo {
+  opacity: 1;
+}
+
+/* escondido se ve mas chico */
+.cerrado .personaje {
+  --escala: 0.9;
+}
+
+/* en celular mas chico para no tapar el contenido */
+@media (max-width: 480px) {
+  .personaje {
+    --escala: 1;
+  }
+
+  .cerrado .personaje {
+    --escala: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .globo,
+  .cursor {
+    animation: none;
+  }
+}
