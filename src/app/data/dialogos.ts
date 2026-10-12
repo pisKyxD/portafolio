@@ -5,8 +5,8 @@ export const NOMBRE_GUIA = 'Sir Bit, caballero de la corte';
 export const DIALOGOS: Record<string, string[]> = {
   inicio: [
     '¡Salve, viajero! Soy Sir Bit, caballero al servicio de pisKy.',
-    'Este es el portafolio de Fabián. Te escoltaré mientras recorres el reino.',
-    'Si me haces clic, te sigo contando... y quizás desenvaine la espada.',
+    'Si tienes alguna duda sobre mi señor, presiona "Pregúntame" y te respondo lo que quieras.',
+    'O simplemente recorre el reino, que yo te voy contando lo importante en cada sección.',
   ],
   'sobre-mi': [
     'Aquí conocerás a mi señor. Estudia en Duoc UC y se especializa en backend y nube.',
@@ -15,7 +15,7 @@ export const DIALOGOS: Record<string, string[]> = {
   gestas: [
     'Estas son sus gestas. TrabajoAquí es la más grande: ¡un mapa de empleos con rutas en micro!',
     'VidalStore es una tienda de videojuegos con microservicios y login con AWS.',
-    'Si un pergamino tiene el enlace "Visitar el reino", puedes verlo funcionando.',
+    '¿Quieres saber más de algún proyecto? Presiona "Pregúntame" y te lo explico.',
   ],
   habilidades: [
     'Estas barras no son inventadas: salen directo de sus repositorios en GitHub.',

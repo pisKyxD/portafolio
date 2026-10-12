@@ -7,7 +7,10 @@
   --dorado: #c9a24a;
   --dorado-claro: #e6c56f;
   --rojo: #8b2c2c;
-  --verde: #2f4a3a;
+  /* verdes sacados de mi escudo */
+  --verde: #2f5a42;
+  --verde-claro: #4f8a5f;
+  --verde-brillo: #6fb07f;
   --texto: #ece4d4;
   --texto-suave: #a89f8f;
   --borde: rgba(201, 162, 74, 0.35);
@@ -27,19 +30,17 @@ html {
 
 body {
   background-color: var(--fondo);
-  /* dos manchas de luz suaves para que el fondo no se vea plano, como luz de antorcha */
+  /* luz de antorcha arriba y un toque verde abajo, como el campo del escudo */
   background-image:
     radial-gradient(circle at 20% 0%, rgba(201, 162, 74, 0.08), transparent 40%),
-    radial-gradient(circle at 80% 100%, rgba(139, 44, 44, 0.08), transparent 40%);
+    radial-gradient(circle at 80% 100%, rgba(79, 138, 95, 0.1), transparent 45%);
   background-attachment: fixed;
   color: var(--texto);
   font-family: var(--fuente-texto);
   line-height: 1.6;
 }
 
-h1,
-h2,
-h3 {
+h1, h2, h3 {
   font-family: var(--fuente-titulo);
   color: var(--dorado-claro);
   letter-spacing: 0.04em;
@@ -48,6 +49,12 @@ h3 {
 a {
   color: var(--dorado-claro);
   text-decoration: none;
+}
+
+/* cuando se navega con teclado se ve un borde verde en lo que esta seleccionado */
+:focus-visible {
+  outline: 2px solid var(--verde-brillo);
+  outline-offset: 3px;
 }
 
 /* contenedor para que nada quede pegado a los bordes, en celular deja 16px por lado */
@@ -68,14 +75,14 @@ a {
   margin-bottom: 8px;
 }
 
-/* adorno debajo de los titulos, dos lineas doradas con un simbolo al medio */
+/* adorno debajo de los titulos, dos lineas doradas con un simbolo verde al medio */
 .adorno {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
   margin-bottom: 48px;
-  color: var(--dorado);
+  color: var(--verde-brillo);
 }
 
 .adorno::before,
@@ -97,9 +104,7 @@ a {
   letter-spacing: 0.08em;
   background: transparent;
   cursor: pointer;
-  transition:
-    background 0.2s,
-    color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .boton:hover {
@@ -107,12 +112,14 @@ a {
   color: var(--fondo);
 }
 
+/* el boton principal ahora es verde como mi escudo */
 .boton.relleno {
-  background: var(--rojo);
-  border-color: var(--rojo);
+  background: var(--verde);
+  border-color: var(--verde-claro);
   color: var(--pergamino);
 }
 
 .boton.relleno:hover {
-  background: #a33636;
+  background: var(--verde-claro);
+  border-color: var(--verde-brillo);
 }
