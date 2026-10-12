@@ -1,0 +1,47 @@
+<section id="contacto" class="seccion">
+  <div class="contenedor">
+    <h2 class="titulo-seccion">Contacto</h2>
+    <div class="adorno">⚔</div>
+    <p class="intro">¿Buscas un caballero para tu próxima campaña? Envíame un mensaje y respondo a la brevedad.</p>
+
+    <div class="canales">
+      @for (canal of canales; track canal.titulo) {
+        <article class="canal">
+          <span class="icono" aria-hidden="true">{{ canal.icono }}</span>
+          <h3>{{ canal.titulo }}</h3>
+          <p class="detalle">{{ canal.detalle }}</p>
+
+          <div class="acciones">
+            <a
+              [href]="canal.url"
+              class="boton"
+              [attr.target]="canal.url.startsWith('mailto') ? null : '_blank'"
+              rel="noopener"
+            >
+              {{ canal.accion }}
+            </a>
+
+            <!-- solo la tarjeta del correo tiene boton de copiar -->
+            @if (canal.url.startsWith('mailto') && correoValido()) {
+              <button class="copiar" (click)="copiarCorreo()">
+                {{ copiado() ? '¡Copiado!' : 'Copiar' }}
+              </button>
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<footer class="pie">
+  <div class="contenedor pie-interior">
+    <p class="firma">
+      © {{ anio }} {{ perfil.nombre }} "{{ perfil.apodo }}" · Forjado con Angular
+    </p>
+    <p class="creditos">
+      Caballero: Pixel Art Crusader por
+      <a href="https://jobanni.itch.io/pixel-art-crusader" target="_blank" rel="noopener">jobanni</a>
+    </p>
+  </div>
+</footer>

@@ -1,6 +1,1 @@
-/* texto temporal de las secciones que faltan */
-.pendiente {
-  text-align: center;
-  color: var(--texto-suave);
-  font-style: italic;
-}
+/* los estilos generales estan en styles.css, cada componente tiene los suyos */
