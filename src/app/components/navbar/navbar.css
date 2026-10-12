@@ -32,17 +32,16 @@
   color: var(--dorado-claro);
 }
 
-/* forma de escudo hecha con border-radius */
+/* el escudo con un brillito dorado que crece al pasar el mouse */
 .escudo {
-  width: 36px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  background: var(--rojo);
-  color: var(--pergamino);
-  border: 2px solid var(--dorado);
-  border-radius: 4px 4px 50% 50% / 4px 4px 40% 40%;
-  font-size: 1rem;
+  display: block;
+  filter: drop-shadow(0 0 4px rgba(201, 162, 74, 0.3));
+  transition: transform 0.25s, filter 0.25s;
+}
+
+.logo:hover .escudo {
+  transform: rotate(-6deg) scale(1.08);
+  filter: drop-shadow(0 0 8px rgba(201, 162, 74, 0.6));
 }
 
 .links {

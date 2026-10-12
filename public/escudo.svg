@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120">
+  <defs>
+    <!-- degradado verde para que el escudo tenga volumen -->
+    <linearGradient id="campo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f8a5f"/>
+      <stop offset="1" stop-color="#244232"/>
+    </linearGradient>
+    <!-- degradado de la piedra de la torre -->
+    <linearGradient id="piedra" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#efe5cf"/>
+      <stop offset="1" stop-color="#c9b68e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- forma del escudo con borde dorado -->
+  <path d="M10 8 H90 V58 Q90 95 50 114 Q10 95 10 58 Z"
+        fill="url(#campo)" stroke="#c9a24a" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- segundo borde fino por dentro -->
+  <path d="M17 15 H83 V58 Q83 89 50 106 Q17 89 17 58 Z"
+        fill="none" stroke="#e6c56f" stroke-width="1.2" opacity="0.6"/>
+
+  <!-- nube arriba de la torre -->
+  <g fill="#f4efe2" stroke="#2a2118" stroke-width="1.5">
+    <path d="M36 36 Q30 36 30 30 Q30 24 37 24 Q39 16 48 16 Q56 16 59 22 Q62 20 65 21 Q71 23 70 29 Q75 31 73 36 Z"/>
+  </g>
+
+  <!-- almenas de la torre -->
+  <path d="M33 52 V43 H39 V47 H45 V43 H55 V47 H61 V43 H67 V52 Z"
+        fill="url(#piedra)" stroke="#2a2118" stroke-width="1.5" stroke-linejoin="round"/>
+
+  <!-- cuerpo de la torre -->
+  <path d="M37 52 H63 V94 H37 Z"
+        fill="url(#piedra)" stroke="#2a2118" stroke-width="1.5"/>
+
+  <!-- lineas de los ladrillos -->
+  <g stroke="#a8925f" stroke-width="1">
+    <line x1="37" y1="64" x2="63" y2="64"/>
+    <line x1="37" y1="76" x2="63" y2="76"/>
+    <line x1="50" y1="52" x2="50" y2="64"/>
+    <line x1="44" y1="64" x2="44" y2="76"/>
+    <line x1="56" y1="64" x2="56" y2="76"/>
+  </g>
+
+  <!-- ventana -->
+  <rect x="47" y="56" width="6" height="6" rx="1" fill="#2a2118"/>
+
+  <!-- puerta con arco -->
+  <path d="M44 94 V84 Q50 76 56 84 V94 Z" fill="#2a2118"/>
+
+  <!-- suelo dorado -->
+  <rect x="31" y="93" width="38" height="4" rx="1" fill="#c9a24a"/>
+</svg>

@@ -22,6 +22,7 @@ export const DIALOGOS: Record<string, string[]> = {
     'Cada vez que sube un proyecto, ganan experiencia solas.',
   ],
   contacto: [
-    '¿Quieres que se una a tu ejército? Envíale un cuervo por aquí abajo.',
+    '¿Buscas a alguien que se una a tu causa? Mi señor siempre está dispuesto a escuchar.',
+    'Envíale un mensaje por aquí abajo y te responderá a la brevedad.',
   ],
 };
