@@ -1,0 +1,50 @@
+<section id="gestas" class="seccion">
+  <div class="contenedor">
+    <h2 class="titulo-seccion">Gestas</h2>
+    <div class="adorno">⚔</div>
+    <p class="intro">Cada proyecto es una batalla. Estas son las que he librado.</p>
+
+    <div class="lista">
+      @for (gesta of gestas; track gesta.id) {
+        <article class="pergamino">
+          <header>
+            <span class="estado" [class.completada]="gesta.estado === 'Completada'">{{ gesta.estado }}</span>
+            <h3>{{ gesta.titulo }}</h3>
+            <p class="subtitulo">{{ gesta.subtitulo }}</p>
+          </header>
+
+          <div class="bloque">
+            <h4>El desafío</h4>
+            <p>{{ gesta.desafio }}</p>
+          </div>
+
+          <div class="bloque">
+            <h4>Hazañas</h4>
+            <ul>
+              @for (hazana of gesta.hazanas; track $index) {
+                <li>{{ hazana }}</li>
+              }
+            </ul>
+          </div>
+
+          <div class="stack">
+            @for (tec of gesta.stack; track tec) {
+              <span class="sello">{{ tec }}</span>
+            }
+          </div>
+
+          <footer class="links">
+            @if (linkValido(gesta.demo)) {
+              <a [href]="gesta.demo" target="_blank" rel="noopener" class="link-principal">Visitar el reino →</a>
+            }
+            @for (repo of gesta.repos; track repo.nombre) {
+              @if (linkValido(repo.url)) {
+                <a [href]="repo.url" target="_blank" rel="noopener">{{ repo.nombre }}</a>
+              }
+            }
+          </footer>
+        </article>
+      }
+    </div>
+  </div>
+</section>

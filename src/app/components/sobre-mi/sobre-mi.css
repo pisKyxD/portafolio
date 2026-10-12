@@ -1,0 +1,86 @@
+.grilla {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.texto p {
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+  color: var(--texto);
+}
+
+/* la ficha tiene borde dorado y esquinas marcadas */
+.ficha {
+  position: relative;
+  padding: 28px;
+  background: var(--fondo-2);
+  border: 1px solid var(--borde);
+}
+
+/* esquinitas doradas decorativas */
+.ficha::before,
+.ficha::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--dorado);
+  border-style: solid;
+}
+
+.ficha::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.ficha::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+.ficha h3 {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.ficha ul {
+  list-style: none;
+  margin-bottom: 24px;
+}
+
+.ficha li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--borde);
+}
+
+.etiqueta {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+
+.valor {
+  color: var(--pergamino);
+  font-weight: 600;
+  text-align: right;
+}
+
+.ficha .boton {
+  display: block;
+  text-align: center;
+}
+
+/* en celular queda una columna */
+@media (max-width: 768px) {
+  .grilla {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}

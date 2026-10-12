@@ -1,0 +1,32 @@
+<section id="sobre-mi" class="seccion">
+  <div class="contenedor">
+    <h2 class="titulo-seccion">Sobre mí</h2>
+    <div class="adorno">⚔</div>
+
+    <div class="grilla">
+      <div class="texto">
+        @for (parrafo of perfil.sobreMi; track $index) {
+          <p>{{ parrafo }}</p>
+        }
+      </div>
+
+      <!-- ficha con mis datos, como la hoja de un personaje -->
+      <aside class="ficha">
+        <h3>Ficha del caballero</h3>
+        <ul>
+          @for (dato of perfil.ficha; track dato.etiqueta) {
+            <li>
+              <span class="etiqueta">{{ dato.etiqueta }}</span>
+              <span class="valor">{{ dato.valor }}</span>
+            </li>
+          }
+          <li>
+            <span class="etiqueta">Gestas emprendidas</span>
+            <span class="valor">{{ totalGestas }}</span>
+          </li>
+        </ul>
+        <a [href]="perfil.github" target="_blank" rel="noopener" class="boton">Ver mi GitHub</a>
+      </aside>
+    </div>
+  </div>
+</section>

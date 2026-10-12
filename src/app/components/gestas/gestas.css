@@ -1,0 +1,131 @@
+.intro {
+  text-align: center;
+  color: var(--texto-suave);
+  margin: -24px 0 40px;
+  font-style: italic;
+}
+
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 32px;
+}
+
+/* tarjeta con look de pergamino viejo */
+.pergamino {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+  color: #2a2118;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.35), transparent 60%),
+    linear-gradient(180deg, var(--pergamino), var(--pergamino-oscuro));
+  border: 1px solid #a8925f;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 0 40px rgba(120, 90, 40, 0.25);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.pergamino:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), inset 0 0 40px rgba(120, 90, 40, 0.25);
+}
+
+.pergamino h3 {
+  color: var(--rojo);
+  font-size: 1.8rem;
+  margin-top: 8px;
+}
+
+.subtitulo {
+  font-family: var(--fuente-titulo);
+  color: #5a4a33;
+  font-size: 0.95rem;
+}
+
+/* etiqueta de estado arriba a la derecha */
+.estado {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--pergamino);
+  background: var(--verde);
+}
+
+.estado.completada {
+  background: var(--rojo);
+}
+
+.bloque h4 {
+  font-family: var(--fuente-titulo);
+  color: #4a3a25;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.bloque ul {
+  padding-left: 20px;
+}
+
+.bloque li {
+  margin-bottom: 6px;
+}
+
+/* las tecnologias como sellos de cera */
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sello {
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--pergamino);
+  background: #6e2a2a;
+  border-radius: 999px;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(90, 74, 51, 0.35);
+}
+
+.links a {
+  color: #4a3a25;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.links a:hover {
+  color: var(--rojo);
+}
+
+.links .link-principal {
+  color: var(--rojo);
+}
+
+@media (max-width: 480px) {
+  .pergamino {
+    padding: 24px;
+  }
+
+  .estado {
+    position: static;
+    align-self: flex-start;
+  }
+}
