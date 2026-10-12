@@ -1,4 +1,4 @@
-import { Component, OnDestroy, afterNextRender, signal } from '@angular/core';
+import { Component, ElementRef, OnDestroy, afterNextRender, signal, viewChild } from '@angular/core';
 import { DIALOGOS, NOMBRE_GUIA } from '../../data/dialogos';
 
 // datos del sprite, cada animacion viene en su propio png
@@ -21,6 +21,12 @@ interface HojaCargada {
   tamano: string;
 }
 
+// cada mensaje de la conversacion con la IA
+interface Mensaje {
+  rol: 'usuario' | 'guia';
+  texto: string;
+}
+
 @Component({
   selector: 'app-guia',
   templateUrl: './guia.html',
@@ -36,6 +42,14 @@ export class Guia implements OnDestroy {
   escribiendo = signal(false);
   abierto = signal(true);
 
+  // ---------- preguntas a la IA ----------
+  // dialogo = va contando cosas por seccion, pregunta = la persona le escribe
+  modo = signal<'dialogo' | 'pregunta'>('dialogo');
+  pregunta = signal('');
+  pensando = signal(false);
+  private historial: Mensaje[] = [];
+  private campo = viewChild<ElementRef<HTMLInputElement>>('campo');
+
   // ---------- sprite ----------
   anchoCuadro = SPRITE.anchoCuadro;
   altoCuadro = SPRITE.altoCuadro;
@@ -47,6 +61,9 @@ export class Guia implements OnDestroy {
   private hojas: Partial<Record<NombreAnimacion, HojaCargada>> = {};
   private cuadro = 0;
   private animacion: NombreAnimacion = 'idle';
+
+  // el texto completo que se esta escribiendo, para poder saltarlo
+  private textoCompleto = '';
 
   private intervaloTexto?: ReturnType<typeof setInterval>;
   private intervaloSprite?: ReturnType<typeof setInterval>;
@@ -106,7 +123,6 @@ export class Guia implements OnDestroy {
 
   private iniciarAnimacion(nombre: NombreAnimacion) {
     const hoja = this.hojas[nombre];
-    // si esa imagen todavia no carga, no hago nada
     if (!hoja) return;
 
     clearInterval(this.intervaloSprite);
@@ -116,7 +132,6 @@ export class Guia implements OnDestroy {
     this.tamanoHoja.set(hoja.tamano);
     this.dibujarCuadro();
 
-    // sin animaciones se queda quieto en el primer cuadro
     if (this.sinAnimacion) return;
 
     const datos = SPRITE.animaciones[nombre];
@@ -144,43 +159,16 @@ export class Guia implements OnDestroy {
   }
 
   private atacar() {
-    // si ya esta atacando no lo interrumpo
     if (this.animacion !== 'ataque') {
       this.iniciarAnimacion('ataque');
     }
   }
 
-  // ================= DIALOGOS =================
+  // ================= TEXTO =================
 
-  // detecta que seccion esta en el medio de la pantalla
-  private observarSecciones() {
-    const secciones = document.querySelectorAll('section[id]');
-
-    this.observador = new IntersectionObserver(
-      (entradas) => {
-        for (const entrada of entradas) {
-          const id = entrada.target.id;
-          if (entrada.isIntersecting && id !== this.seccionActual() && DIALOGOS[id]) {
-            this.seccionActual.set(id);
-            this.indice.set(0);
-            this.mostrarLinea();
-          }
-        }
-      },
-      // solo cuenta la seccion que cruza la franja del medio de la pantalla
-      { rootMargin: '-45% 0px -45% 0px' },
-    );
-
-    secciones.forEach((seccion) => this.observador!.observe(seccion));
-  }
-
-  private lineas() {
-    return DIALOGOS[this.seccionActual()] ?? [];
-  }
-
-  // escribe la linea actual letra por letra
-  private mostrarLinea() {
-    const linea = this.lineas()[this.indice()] ?? '';
+  // escribe cualquier texto letra por letra, lo uso para dialogos y respuestas de la IA
+  private escribir(linea: string) {
+    this.textoCompleto = linea;
     clearInterval(this.intervaloTexto);
 
     if (!this.abierto() || this.sinAnimacion) {
@@ -200,15 +188,55 @@ export class Guia implements OnDestroy {
         clearInterval(this.intervaloTexto);
         this.escribiendo.set(false);
       }
-    }, 25);
+    }, 22);
+  }
+
+  // muestra el texto completo de una
+  private completarTexto() {
+    clearInterval(this.intervaloTexto);
+    this.texto.set(this.textoCompleto);
+    this.escribiendo.set(false);
+  }
+
+  // ================= DIALOGOS =================
+
+  // detecta que seccion esta en el medio de la pantalla
+  private observarSecciones() {
+    const secciones = document.querySelectorAll('section[id]');
+
+    this.observador = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) {
+          const id = entrada.target.id;
+          if (entrada.isIntersecting && id !== this.seccionActual() && DIALOGOS[id]) {
+            this.seccionActual.set(id);
+            this.indice.set(0);
+            // si la persona esta preguntandole algo, no le cambio el texto
+            if (this.modo() === 'dialogo') {
+              this.mostrarLinea();
+            }
+          }
+        }
+      },
+      // solo cuenta la seccion que cruza la franja del medio de la pantalla
+      { rootMargin: '-45% 0px -45% 0px' },
+    );
+
+    secciones.forEach((seccion) => this.observador!.observe(seccion));
+  }
+
+  private lineas() {
+    return DIALOGOS[this.seccionActual()] ?? [];
+  }
+
+  private mostrarLinea() {
+    this.escribir(this.lineas()[this.indice()] ?? '');
   }
 
   // si esta escribiendo, completa la linea; si no, pasa a la siguiente
   siguiente() {
     if (this.escribiendo()) {
-      clearInterval(this.intervaloTexto);
-      this.texto.set(this.lineas()[this.indice()]);
-      this.escribiendo.set(false);
+      this.completarTexto();
       return;
     }
     this.indice.set((this.indice() + 1) % this.lineas().length);
@@ -218,7 +246,12 @@ export class Guia implements OnDestroy {
   alternar() {
     this.abierto.update((abierto) => !abierto);
     if (this.abierto()) {
-      this.mostrarLinea();
+      if (this.modo() === 'dialogo') {
+        this.mostrarLinea();
+      } else {
+        this.texto.set(this.textoCompleto);
+        this.enfocarCampo();
+      }
     } else {
       clearInterval(this.intervaloTexto);
       this.escribiendo.set(false);
@@ -228,10 +261,78 @@ export class Guia implements OnDestroy {
   // clic en el caballero: ataca y avanza el dialogo, o aparece si estaba escondido
   clicPersonaje() {
     this.atacar();
-    if (this.abierto()) {
-      this.siguiente();
-    } else {
+    if (!this.abierto()) {
       this.alternar();
+      return;
     }
+    if (this.modo() === 'dialogo') {
+      this.siguiente();
+    }
+  }
+
+  // ================= PREGUNTAS A LA IA =================
+
+  abrirPregunta() {
+    this.modo.set('pregunta');
+    this.escribir('Pregúntame lo que quieras sobre mi señor: sus proyectos, su stack o lo que estudia.');
+    this.enfocarCampo();
+  }
+
+  volverDialogos() {
+    this.modo.set('dialogo');
+    this.mostrarLinea();
+  }
+
+  actualizarPregunta(evento: Event) {
+    this.pregunta.set((evento.target as HTMLInputElement).value);
+  }
+
+  async enviarPregunta(evento: Event) {
+    // el form recarga la pagina si no lo detengo
+    evento.preventDefault();
+
+    const pregunta = this.pregunta().trim();
+    if (!pregunta || this.pensando()) return;
+
+    this.pensando.set(true);
+    this.escribir('Déjame consultar los pergaminos...');
+
+    try {
+      const respuesta = await fetch('/api/preguntar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pregunta, historial: this.historial.slice(-6) }),
+      });
+
+      if (respuesta.status === 429) {
+        this.escribir(
+          'Uf, hoy he respondido demasiadas preguntas y necesito descansar. Vuelve más tarde o escríbele a mi señor desde Contacto.',
+        );
+        return;
+      }
+
+      if (!respuesta.ok) {
+        throw new Error(`El servidor respondió ${respuesta.status}`);
+      }
+
+      const datos: { respuesta: string } = await respuesta.json();
+
+      // guardo la conversacion para que la IA tenga contexto en la siguiente pregunta
+      this.historial.push({ rol: 'usuario', texto: pregunta }, { rol: 'guia', texto: datos.respuesta });
+      this.pregunta.set('');
+      this.atacar();
+      this.escribir(datos.respuesta);
+    } catch (error) {
+      console.error('Error preguntando a la IA:', error);
+      this.escribir('Los cuervos se perdieron en el camino y no pude responder. Intenta de nuevo en un momento.');
+    } finally {
+      this.pensando.set(false);
+      this.enfocarCampo();
+    }
+  }
+
+  // pone el cursor en el campo de texto apenas aparece
+  private enfocarCampo() {
+    setTimeout(() => this.campo()?.nativeElement.focus(), 0);
   }
 }

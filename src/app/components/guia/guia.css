@@ -18,7 +18,7 @@
 /* globo de dialogo con look de pergamino */
 .globo {
   position: relative;
-  width: min(300px, calc(100vw - 32px));
+  width: min(320px, calc(100vw - 32px));
   padding: 16px;
   color: #2a2118;
   background: linear-gradient(180deg, var(--pergamino), var(--pergamino-oscuro));
@@ -75,8 +75,11 @@
   cursor: pointer;
 }
 
+/* si la respuesta de la IA es larga, se puede hacer scroll dentro del globo */
 .texto {
   min-height: 3em;
+  max-height: 200px;
+  overflow-y: auto;
   font-size: 0.95rem;
 }
 
@@ -95,9 +98,16 @@
   }
 }
 
+/* fila con los dos botones del modo dialogo */
+.botones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
 .siguiente {
-  display: block;
-  margin: 10px 0 0 auto;
   padding: 4px 12px;
   font-family: var(--fuente-titulo);
   font-size: 0.8rem;
@@ -108,8 +118,68 @@
   cursor: pointer;
 }
 
-.siguiente:hover {
+.siguiente:hover:not(:disabled) {
   background: #a33636;
+}
+
+.siguiente:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secundario {
+  padding: 3px 10px;
+  font-family: var(--fuente-titulo);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--verde);
+  background: transparent;
+  border: 1px solid var(--verde);
+  cursor: pointer;
+}
+
+.secundario:hover {
+  color: var(--pergamino);
+  background: var(--verde);
+}
+
+/* campo para escribir la pregunta */
+.formulario {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.formulario input {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 8px;
+  font-family: var(--fuente-texto);
+  font-size: 0.85rem;
+  color: #2a2118;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid #a8925f;
+  outline: none;
+}
+
+.formulario input:focus {
+  border-color: var(--rojo);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.volver {
+  margin-top: 8px;
+  padding: 0;
+  font-size: 0.75rem;
+  color: #5a4a33;
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.volver:hover {
+  color: var(--rojo);
 }
 
 /* el boton tiene el tamaño del caballero ya agrandado */
@@ -127,7 +197,7 @@
 }
 
 /* el sprite se dibuja a su tamaño real y se agranda con scale
-   el scaleX(-1) lo da vuelta para que mire hacia la izquierda, si queda al reves lo saco */
+   el scaleX(-1) lo da vuelta para que mire hacia la izquierda */
 .sprite {
   flex-shrink: 0;
   background-repeat: no-repeat;
@@ -139,17 +209,14 @@
   transition: opacity 0.3s;
 }
 
-/* aparece cuando la imagen ya cargo, asi no se ve un cuadro vacio */
 .sprite.listo {
   opacity: 1;
 }
 
-/* escondido se ve mas chico */
 .cerrado .personaje {
   --escala: 0.9;
 }
 
-/* en celular mas chico para no tapar el contenido */
 @media (max-width: 480px) {
   .personaje {
     --escala: 1;

@@ -6,20 +6,43 @@
         <button class="cerrar" (click)="alternar()" aria-label="Ocultar guía">×</button>
       </div>
 
-      <p class="texto">
+      <p class="texto" aria-live="polite">
         {{ texto() }}<span class="cursor" [class.oculto]="!escribiendo()">|</span>
       </p>
 
-      <button class="siguiente" (click)="siguiente()">
-        {{ escribiendo() ? 'Saltar' : 'Siguiente ▸' }}
-      </button>
+      @if (modo() === 'dialogo') {
+        <div class="botones">
+          <button class="secundario" (click)="abrirPregunta()">Pregúntame</button>
+          <button class="siguiente" (click)="siguiente()">
+            {{ escribiendo() ? 'Saltar' : 'Siguiente ▸' }}
+          </button>
+        </div>
+      } @else {
+        <!-- formulario para hacerle preguntas a la IA -->
+        <form class="formulario" (submit)="enviarPregunta($event)">
+          <input
+            #campo
+            type="text"
+            [value]="pregunta()"
+            (input)="actualizarPregunta($event)"
+            maxlength="300"
+            placeholder="Ej: ¿Qué hizo en VidalStore?"
+            [disabled]="pensando()"
+            aria-label="Tu pregunta para Sir Bit"
+          />
+          <button type="submit" class="siguiente" [disabled]="pensando() || !pregunta().trim()">
+            {{ pensando() ? '...' : 'Enviar' }}
+          </button>
+        </form>
+        <button class="volver" (click)="volverDialogos()">◂ Volver al recorrido</button>
+      }
     </div>
   }
 
   <button
     class="personaje"
     (click)="clicPersonaje()"
-    [attr.aria-label]="abierto() ? 'Siguiente diálogo' : 'Hablar con ' + nombre"
+    [attr.aria-label]="abierto() ? 'Interactuar con ' + nombre : 'Hablar con ' + nombre"
   >
     <!-- el caballero, se anima moviendo el fondo cuadro por cuadro -->
     <div
