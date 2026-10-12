@@ -1,0 +1,47 @@
+<section id="habilidades" class="seccion">
+  <div class="contenedor">
+    <h2 class="titulo-seccion">Habilidades</h2>
+    <div class="adorno">⚔</div>
+    <p class="intro">Cada línea de código es experiencia ganada en batalla.</p>
+
+    <div class="tablero">
+      @if (github.cargando()) {
+        <p class="mensaje">Consultando los archivos del reino...</p>
+      } @else if (github.error() || github.lenguajes().length === 0) {
+        <p class="mensaje">
+          Los cuervos no lograron traer los registros. Puedes verlos directo en
+          <a [href]="perfil.github" target="_blank" rel="noopener">mi GitHub</a>.
+        </p>
+      } @else {
+        <ul class="lista">
+          @for (lenguaje of github.lenguajes(); track lenguaje.nombre; let i = $index) {
+            <li class="item">
+              <div class="cabecera">
+                <span class="nombre">{{ lenguaje.nombre }}</span>
+                <span class="rango">{{ rango(lenguaje.porcentaje) }}</span>
+              </div>
+
+              <div class="barra">
+                <div
+                  class="relleno"
+                  [style.width.%]="ancho(lenguaje)"
+                  [style.background]="color(lenguaje.nombre)"
+                  [style.transition-delay.ms]="i * 120"
+                ></div>
+              </div>
+
+              <div class="detalle">
+                <span>{{ lenguaje.porcentaje.toFixed(1) }}% del código</span>
+                <span>en {{ lenguaje.repos }} {{ lenguaje.repos === 1 ? 'repositorio' : 'repositorios' }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+
+        <p class="nota">
+          Datos reales de mis {{ github.totalRepos() }} repositorios públicos en GitHub. Se actualizan solos cada vez que subo un proyecto.
+        </p>
+      }
+    </div>
+  </div>
+</section>
