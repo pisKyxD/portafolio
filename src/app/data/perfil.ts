@@ -12,7 +12,7 @@ export const PERFIL = {
   github: 'https://github.com/pisKyxD',
   // TODO: completar con mis links reales
   linkedin: 'TODO',
-  correo: 'TODO',
+  correo: 'fabian.asv.dev@gmail.com',
 
   // parrafos de la seccion sobre mi
   sobreMi: [
