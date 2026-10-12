@@ -11,7 +11,7 @@ export const PERFIL = {
   usuarioGithub: 'pisKyxD',
   github: 'https://github.com/pisKyxD',
   // TODO: completar con mis links reales
-  linkedin: 'TODO',
+  linkedin: 'www.linkedin.com/in/fabián-andrés-sánchez-vargas-4b6aba442',
   correo: 'fabian.asv.dev@gmail.com',
 
   // parrafos de la seccion sobre mi
