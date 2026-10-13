@@ -20,6 +20,25 @@ export interface Gesta {
 
 export const GESTAS: Gesta[] = [
   {
+    id: 'estandarte-roto',
+    titulo: 'Estandarte Roto',
+    subtitulo: 'Juego táctico medieval por turnos',
+    estado: 'En curso',
+    desafio:
+      'Hacer mi propio juego desde cero en Godot, mezclando lo crudo de Battle Brothers (mercenarios, plata justa y muerte permanente) con el combate por turnos y los ascensos de clase de Fire Emblem.',
+    hazanas: [
+      'Combate en grilla con triángulo de armas, cargas de caballería, armadura por zonas, heridas y moral',
+      'Compañía de mercenarios con muerte permanente, trasfondos, rasgos y ascensos de clase',
+      'Mapas de batalla generados al azar: aldeas, campamentos con empalizada, caravanas y ruinas',
+      'Mapa del mundo con viajes, comida, contratos con plazo y emboscadas',
+      'Terreno y animaciones dibujados por código, sonido, guardado automático y versión web',
+    ],
+    stack: ['Godot 4', 'GDScript', 'Git'],
+    // cuando lo publique en itch.io le saco el comentario, si no el boton lleva a una pagina que no existe
+    // demo: 'https://pisky96.itch.io/estandarte-roto',
+    repos: [{ nombre: 'Repositorio', url: 'https://github.com/pisKyxD/juego-tactico', publico: false }],
+  },
+  {
     id: 'trabajoaqui',
     titulo: 'TrabajoAquí',
     subtitulo: 'Plataforma de búsqueda de empleo',
