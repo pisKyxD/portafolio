@@ -2,6 +2,29 @@
 // el token de github vive solo aca, asi puedo contar tambien los repos privados
 const USUARIO = 'pisKyxD';
 
+// repos que no quiero que cuenten aunque sean mios (por ejemplo pruebas), en minusculas
+const IGNORAR = [];
+
+// trae todas las paginas, github devuelve maximo 100 repos por pagina
+async function traerTodos(url, cabeceras) {
+  const todos = [];
+  for (let pagina = 1; pagina <= 10; pagina++) {
+    const respuesta = await fetch(`${url}&page=${pagina}`, { headers: cabeceras });
+    if (!respuesta.ok) {
+      throw new Error(`GitHub respondió ${respuesta.status}: ${await respuesta.text()}`);
+    }
+    const repos = await respuesta.json();
+    todos.push(...repos);
+    if (repos.length < 100) break;
+  }
+  return todos;
+}
+
+// un fork solo cuenta si yo le hice push despues de copiarlo (asi no cuento forks que nunca toque)
+function trabajeEnElFork(repo) {
+  return new Date(repo.pushed_at).getTime() - new Date(repo.created_at).getTime() > 60 * 1000;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
@@ -17,28 +40,30 @@ export default async function handler(req, res) {
   };
   if (token) {
     cabeceras.Authorization = `Bearer ${token}`;
+  } else {
+    // si sale esto en los logs de vercel es porque falta la variable GITHUB_TOKEN
+    console.warn('No hay GITHUB_TOKEN, solo se van a contar los repos publicos');
   }
 
-  // con token traigo mis repos publicos y privados, sin token solo los publicos
+  // con token traigo mis repos publicos y privados, y en los que soy colaborador
+  // sin token solo los publicos
   const urlRepos = token
-    ? 'https://api.github.com/user/repos?per_page=100&affiliation=owner'
+    ? 'https://api.github.com/user/repos?per_page=100&affiliation=owner,collaborator&visibility=all'
     : `https://api.github.com/users/${USUARIO}/repos?per_page=100&type=owner`;
 
   try {
-    const respuesta = await fetch(urlRepos, { headers: cabeceras });
-    if (!respuesta.ok) {
-      console.error('GitHub respondió', respuesta.status, await respuesta.text());
-      return res.status(502).json({ error: 'No se pudieron leer los repos' });
-    }
+    const repos = await traerTodos(urlRepos, cabeceras);
 
-    const repos = await respuesta.json();
-
-    // los forks no los cuento porque no son codigo mio
-    const propios = repos.filter((repo) => !repo.fork);
+    // los forks que nunca toque no cuentan, los que si trabaje si
+    const contados = repos.filter((repo) => {
+      if (IGNORAR.includes(repo.name.toLowerCase())) return false;
+      if (repo.fork) return trabajeEnElFork(repo);
+      return true;
+    });
 
     // pido los lenguajes de cada repo, todos al mismo tiempo
     const lenguajesPorRepo = await Promise.all(
-      propios.map((repo) =>
+      contados.map((repo) =>
         fetch(repo.languages_url, { headers: cabeceras })
           .then((r) => (r.ok ? r.json() : {}))
           .catch(() => ({})),
@@ -72,9 +97,9 @@ export default async function handler(req, res) {
     // y si pasa la hora sigue mostrando la anterior mientras calcula la nueva
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
 
-    return res.status(200).json({ lenguajes, totalRepos: propios.length });
+    return res.status(200).json({ lenguajes, totalRepos: contados.length });
   } catch (error) {
     console.error('Error calculando lenguajes:', error);
-    return res.status(500).json({ error: 'Error al calcular los lenguajes' });
+    return res.status(502).json({ error: 'No se pudieron leer los repos' });
   }
 }

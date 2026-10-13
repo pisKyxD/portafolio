@@ -20,6 +20,8 @@ const COLORES: Record<string, string> = {
   SCSS: '#c6538c',
   Python: '#3572a5',
   Java: '#b07219',
+  Kotlin: '#a97bff',
+  GDScript: '#478cbf',
   Shell: '#89e051',
   Dockerfile: '#4a8bbf',
   'C#': '#178600',

@@ -14,8 +14,8 @@ interface RespuestaLenguajes {
 }
 
 // guardo el resultado una hora en el navegador para que cargue al tiro si vuelven a entrar
-// le cambie el nombre a la clave para que no use lo que quedo guardado de la version anterior
-const CLAVE_CACHE = 'portafolio-lenguajes-v2';
+// le cambio el nombre a la clave cada vez que cambia el calculo, asi nadie ve los datos viejos
+const CLAVE_CACHE = 'portafolio-lenguajes-v3';
 const DURACION_CACHE = 60 * 60 * 1000;
 
 @Injectable({ providedIn: 'root' })
@@ -36,7 +36,7 @@ export class GithubLenguajes {
     }
 
     try {
-      // ahora el calculo lo hace mi funcion en vercel, que puede ver tambien los repos privados
+      // el calculo lo hace mi funcion en vercel, que puede ver tambien los repos privados
       const respuesta = await fetch('/api/lenguajes');
       if (!respuesta.ok) {
         throw new Error(`El servidor respondió ${respuesta.status}`);
