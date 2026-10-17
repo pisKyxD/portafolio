@@ -6,12 +6,53 @@
 
     <div class="lista">
       @for (gesta of gestas; track gesta.id) {
-        <article class="pergamino">
+        <!-- al entrar el cursor (o el foco con tab) parte el video, al salir se pausa -->
+        <article
+          class="pergamino"
+          (mouseenter)="reproducir($event)"
+          (mouseleave)="pausar($event)"
+          (focusin)="reproducir($event)"
+          (focusout)="pausar($event)"
+        >
           <header>
             <span class="estado" [class.completada]="gesta.estado === 'Completada'">{{ gesta.estado }}</span>
             <h3>{{ gesta.titulo }}</h3>
             <p class="subtitulo">{{ gesta.subtitulo }}</p>
           </header>
+
+          <!-- captura o video del proyecto, si el archivo no existe no aparece -->
+          <!-- en computador esta tapada y aparece al pasar el cursor; en celular se ve siempre -->
+          @if (mostrarImagen(gesta.id, gesta.imagen)) {
+            <figure class="marco" [class.al-pasar]="conMouse">
+              <div class="portada" aria-hidden="true">
+                <span class="portada-icono">⚔</span>
+                <span>Pasa el cursor para ver la gesta</span>
+              </div>
+              @if (esVideo(gesta.imagen!)) {
+                <!-- muted va dos veces: el atributo y la propiedad, si no algunos navegadores no lo dejan partir solo -->
+                <video
+                  [src]="gesta.imagen"
+                  [attr.aria-label]="gesta.imagenAlt"
+                  [autoplay]="!conMouse && !movimientoReducido"
+                  [controls]="movimientoReducido"
+                  muted
+                  [muted]="true"
+                  loop
+                  playsinline
+                  preload="auto"
+                  (error)="imagenFallo(gesta.id)"
+                ></video>
+              } @else {
+                <img
+                  [src]="gesta.imagen"
+                  [alt]="gesta.imagenAlt ?? 'Captura de ' + gesta.titulo"
+                  loading="lazy"
+                  decoding="async"
+                  (error)="imagenFallo(gesta.id)"
+                />
+              }
+            </figure>
+          }
 
           <div class="bloque">
             <h4>El desafío</h4>
