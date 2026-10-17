@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Te perdiste, viajero | pisKy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- que google no guarde esta pagina -->
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#14110f">
+  <link rel="icon" type="image/svg+xml" href="/escudo.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- esta pagina no pasa por angular (vercel la muestra sola cuando una ruta no existe),
+       por eso los estilos van aca mismo con los mismos colores del portafolio -->
+  <style>
+    :root {
+      --fondo: #14110f;
+      --pergamino: #e8dcc0;
+      --pergamino-oscuro: #c9b68e;
+      --dorado: #c9a24a;
+      --dorado-claro: #e6c56f;
+      --verde: #2f5a42;
+      --verde-claro: #4f8a5f;
+      --texto: #ece4d4;
+      --texto-suave: #a89f8f;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px 16px 140px;
+      overflow-x: hidden;
+      color: var(--texto);
+      font-family: 'Inter', system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 30%, rgba(201, 162, 74, 0.12), transparent 60%),
+        var(--fondo);
+    }
+
+    .contenido {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+      text-align: center;
+    }
+
+    /* el 404 grande, como grabado en piedra */
+    .numero {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: clamp(5rem, 22vw, 9rem);
+      line-height: 1;
+      color: transparent;
+      background: linear-gradient(180deg, var(--dorado-claro), #7a5f22);
+      -webkit-background-clip: text;
+      background-clip: text;
+      text-shadow: 0 6px 30px rgba(201, 162, 74, 0.15);
+    }
+
+    h1 {
+      margin-top: 8px;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      color: var(--dorado-claro);
+    }
+
+    .texto {
+      margin-top: 14px;
+      line-height: 1.6;
+      color: var(--texto-suave);
+    }
+
+    /* sir bit con su globo de dialogo */
+    .guia {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 4px;
+      margin: 28px auto 0;
+    }
+
+    .globo {
+      position: relative;
+      max-width: 230px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      text-align: left;
+      color: #2a2118;
+      background: linear-gradient(180deg, var(--pergamino), var(--pergamino-oscuro));
+      border: 1px solid #a8925f;
+      margin-bottom: 80px;
+    }
+
+    .globo strong {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      color: #8b2c2c;
+    }
+
+    /* la colita del globo apuntando al caballero */
+    .globo::after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      bottom: 12px;
+      border: 8px solid transparent;
+      border-right: 0;
+      border-left-color: var(--pergamino-oscuro);
+    }
+
+    /* el sprite del caballero: 6 cuadros de 112x96 en una fila, steps(6) los va pasando
+       lo dibujo 1.5 veces mas grande (168x144) para que se luzca */
+    .caballero {
+      width: 168px;
+      height: 144px;
+      flex-shrink: 0;
+      background: url('/guia/idle.png') 0 0 / 1008px 144px no-repeat;
+      image-rendering: pixelated;
+      animation: respirar 0.84s steps(6) infinite;
+    }
+
+    @keyframes respirar {
+      to {
+        background-position: -1008px 0;
+      }
+    }
+
+    .acciones {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .boton {
+      display: inline-block;
+      padding: 12px 24px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      color: var(--dorado-claro);
+      border: 1px solid var(--dorado);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .boton:hover,
+    .boton:focus-visible {
+      background: var(--dorado);
+      color: var(--fondo);
+    }
+
+    .boton.relleno {
+      color: var(--pergamino);
+      background: var(--verde);
+      border-color: var(--verde-claro);
+    }
+
+    .boton.relleno:hover,
+    .boton.relleno:focus-visible {
+      background: var(--verde-claro);
+    }
+
+    /* bosque oscuro abajo, para que se note que se perdio */
+    .bosque {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 160px;
+      pointer-events: none;
+    }
+
+    .arboles-lejos {
+      fill: #1d1915;
+    }
+
+    .arboles-cerca {
+      fill: #0e0c0a;
+    }
+
+    /* niebla que pasa lento entre los arboles */
+    .niebla {
+      position: fixed;
+      left: -50%;
+      bottom: 40px;
+      width: 200%;
+      height: 120px;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(168, 159, 143, 0.08), transparent 60%);
+      animation: niebla 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes niebla {
+      to {
+        transform: translateX(15%);
+      }
+    }
+
+    /* si la persona pidio menos animaciones, todo queda quieto */
+    @media (prefers-reduced-motion: reduce) {
+      .caballero,
+      .niebla {
+        animation: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .globo {
+        margin-bottom: 64px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="contenido">
+    <p class="numero" aria-hidden="true">404</p>
+    <h1>Te perdiste en el bosque, viajero</h1>
+    <p class="texto">
+      Este camino no lleva a ningún castillo. Puede que el pergamino que seguías estuviera roto
+      o que esta gesta nunca haya existido.
+    </p>
+
+    <div class="guia">
+      <p class="globo">
+        <strong>Sir Bit</strong>
+        ¡Alto ahí! Por aquí solo hay niebla y lobos. Deja que te lleve de vuelta.
+      </p>
+      <div class="caballero" role="img" aria-label="Sir Bit, el caballero guía"></div>
+    </div>
+
+    <div class="acciones">
+      <a href="/" class="boton relleno">Volver al castillo</a>
+      <a href="/#gestas" class="boton">Ver mis gestas</a>
+    </div>
+  </main>
+
+  <div class="niebla" aria-hidden="true"></div>
+
+  <!-- siluetas de pinos: una fila lejos (mas clara) y otra cerca (mas oscura) -->
+  <svg class="bosque" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
+    <path class="arboles-lejos" d="M0 160 V110 L30 70 L60 110 L90 60 L120 110 L150 80 L180 110 L220 50 L260 110 L300 75 L340 110 L380 65 L420 110 L460 85 L500 110 L540 55 L580 110 L620 80 L660 110 L700 60 L740 110 L780 75 L820 110 L860 50 L900 110 L940 80 L980 110 L1020 65 L1060 110 L1100 85 L1140 110 L1180 55 L1220 110 L1260 75 L1300 110 L1340 60 L1380 110 L1410 80 L1440 105 V160 Z" />
+    <path class="arboles-cerca" d="M0 160 V135 L40 95 L80 135 L120 85 L160 135 L200 105 L240 135 L290 80 L340 135 L380 100 L420 135 L470 90 L520 135 L560 110 L600 135 L650 85 L700 135 L740 105 L780 135 L830 80 L880 135 L920 100 L960 135 L1010 90 L1060 135 L1100 110 L1140 135 L1190 85 L1240 135 L1280 100 L1320 135 L1370 90 L1410 130 L1440 120 V160 Z" />
+  </svg>
+</body>
+</html>
