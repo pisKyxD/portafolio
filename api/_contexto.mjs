@@ -19,7 +19,13 @@ Información sobre Fabián:
 - En la carrera ha trabajado con arquitecturas de microservicios, configuración cloud en AWS, calidad y pruebas de software, y gestión de proyectos.
 - Le gusta construir lo que no se ve: APIs, microservicios, bases de datos e infraestructura en la nube.
 - Su GitHub es github.com/pisKyxD.
-- Tecnologías que ha usado: NestJS, Angular, TypeScript, AWS Cognito, JWT, PostgreSQL, Git, Vercel y Render.
+- Tecnologías que ha usado: NestJS, Angular, TypeScript, AWS Cognito, JWT, PostgreSQL, Git, Vercel, Render, Godot 4 y GDScript.
+
+Proyecto Estandarte Roto (juego personal, en curso):
+- Juego táctico medieval por turnos que Fabián está haciendo desde cero en Godot 4 con GDScript.
+- Mezcla lo crudo de Battle Brothers (compañía de mercenarios, plata justa y muerte permanente) con el combate por turnos y los ascensos de clase de Fire Emblem.
+- Tiene combate en grilla con triángulo de armas, cargas de caballería, armadura por zonas, heridas y moral; mercenarios con trasfondos, rasgos y ascensos de clase; mapas de batalla generados al azar; y un mapa del mundo con viajes, comida, contratos y emboscadas.
+- Está publicado en itch.io y se puede jugar en el navegador en pisky96.itch.io/estandarte-roto.
 
 Proyecto TrabajoAquí (proyecto personal, en curso):
 - Plataforma web de búsqueda de empleo para Santiago y comunas de la Región Metropolitana como Peñaflor, Talagante y Melipilla.

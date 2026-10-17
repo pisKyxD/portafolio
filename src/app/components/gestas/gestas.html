@@ -37,7 +37,8 @@
           @if (linkValido(gesta.demo) || reposVisibles(gesta.repos).length > 0) {
             <footer class="links">
               @if (linkValido(gesta.demo)) {
-                <a [href]="gesta.demo" target="_blank" rel="noopener" class="link-principal">Visitar el reino →</a>
+                <!-- cada gesta puede tener su propio texto (ej: el juego dice "Jugar en itch.io") -->
+                <a [href]="gesta.demo" target="_blank" rel="noopener" class="link-principal">{{ gesta.textoDemo ?? 'Visitar el reino →' }}</a>
               }
               @for (repo of reposVisibles(gesta.repos); track repo.nombre) {
                 <a [href]="repo.url" target="_blank" rel="noopener">{{ repo.nombre }}</a>

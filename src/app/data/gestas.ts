@@ -15,6 +15,8 @@ export interface Gesta {
   hazanas: string[];
   stack: string[];
   demo?: string;
+  // texto del boton de la demo, si no viene dice "Visitar el reino →"
+  textoDemo?: string;
   repos: Repo[];
 }
 
@@ -34,8 +36,9 @@ export const GESTAS: Gesta[] = [
       'Terreno y animaciones dibujados por código, sonido, guardado automático y versión web',
     ],
     stack: ['Godot 4', 'GDScript', 'Git'],
-    // cuando lo publique en itch.io le saco el comentario, si no el boton lleva a una pagina que no existe
-    // demo: 'https://pisky96.itch.io/estandarte-roto',
+    // ya esta publicado en itch.io, se puede jugar en el navegador
+    demo: 'https://pisky96.itch.io/estandarte-roto',
+    textoDemo: 'Jugar en itch.io →',
     repos: [{ nombre: 'Repositorio', url: 'https://github.com/pisKyxD/juego-tactico', publico: false }],
   },
   {
