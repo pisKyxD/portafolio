@@ -44,6 +44,86 @@
   font-size: 0.95rem;
 }
 
+/* marco de la captura o video: borde dorado como un cuadro colgado */
+.marco {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #2a2118;
+  border: 3px solid #a8925f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* contain: la captura se ve completa aunque no sea 16:9, lo que sobra queda con el fondo cafe del marco
+   (con cover se cortaba el titulo de la portada del juego y el logo de trabajoaqui) */
+.marco img,
+.marco video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.4s;
+}
+
+/* tapa que se ve antes de pasar el cursor (solo en computador) */
+.portada {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--fuente-titulo);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--pergamino-oscuro);
+  background:
+    radial-gradient(circle at 50% 40%, rgba(201, 162, 74, 0.18), transparent 65%),
+    #2a2118;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.portada-icono {
+  font-size: 2rem;
+  color: var(--dorado);
+}
+
+/* con mouse: la captura parte escondida y la tapa visible */
+.marco.al-pasar .portada {
+  display: flex;
+}
+
+.marco.al-pasar img,
+.marco.al-pasar video {
+  opacity: 0;
+}
+
+/* al pasar el cursor por la tarjeta (o llegar con tab) se cambia: se va la tapa y aparece la captura */
+.pergamino:hover .marco.al-pasar .portada,
+.pergamino:focus-within .marco.al-pasar .portada {
+  opacity: 0;
+}
+
+.pergamino:hover .marco.al-pasar img,
+.pergamino:hover .marco.al-pasar video,
+.pergamino:focus-within .marco.al-pasar img,
+.pergamino:focus-within .marco.al-pasar video {
+  opacity: 1;
+}
+
+/* si pidio menos animaciones, el cambio es instantaneo */
+@media (prefers-reduced-motion: reduce) {
+  .marco img,
+  .marco video,
+  .portada {
+    transition: none;
+  }
+}
+
 /* etiqueta de estado arriba a la derecha */
 .estado {
   position: absolute;

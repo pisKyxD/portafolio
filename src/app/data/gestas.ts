@@ -14,6 +14,11 @@ export interface Gesta {
   desafio: string;
   hazanas: string[];
   stack: string[];
+  // captura o video corto del proyecto, va en la carpeta public/gestas/
+  // puede ser imagen (.webp, .png, .jpg, .gif) o video (.mp4, .webm). si el archivo no existe no se muestra nada
+  imagen?: string;
+  // lo que lee un lector de pantalla en vez de la imagen
+  imagenAlt?: string;
   demo?: string;
   // texto del boton de la demo, si no viene dice "Visitar el reino →"
   textoDemo?: string;
@@ -36,6 +41,9 @@ export const GESTAS: Gesta[] = [
       'Terreno y animaciones dibujados por código, sonido, guardado automático y versión web',
     ],
     stack: ['Godot 4', 'GDScript', 'Git'],
+    // portada del juego. cuando grabe un video de una batalla lo cambio por 'gestas/estandarte-roto.mp4'
+    imagen: 'gestas/estandarte-roto.webp',
+    imagenAlt: 'Portada de Estandarte Roto: un caballero con armadura y alabarda montado en un caballo acorazado',
     // ya esta publicado en itch.io, se puede jugar en el navegador
     demo: 'https://pisky96.itch.io/estandarte-roto',
     textoDemo: 'Jugar en itch.io →',
@@ -50,13 +58,29 @@ export const GESTAS: Gesta[] = [
       'Encontrar pega cerca de casa en Santiago y en comunas como Peñaflor, Talagante o Melipilla es difícil: las ofertas están dispersas y nadie te dice cómo llegar.',
     hazanas: [
       'Mapa con las empresas que están contratando y un panel con sus ofertas',
+      'Sección aparte para ofertas de trabajo remoto',
       'Filtros por sueldo, turnos y jornada full o part-time',
-      'Seguimiento de postulaciones y alertas por correo',
+      'Seguimiento de postulaciones, agenda de entrevistas y alertas por correo',
       'Rutas en transporte público hasta cada empresa',
-      'Importación automática de ofertas desde otras fuentes',
+      'Importación automática de ofertas desde otros portales',
+      'Seguridad: importador protegido contra SSRF, revisión del contenido real de los archivos subidos, conexión cifrada y verificada a la base de datos y cierre de sesión por inactividad',
     ],
-    // TODO: agregar los frameworks que use en el frontend y el backend
-    stack: ['PostgreSQL', 'Neon', 'Google Maps API', 'Gmail API', 'Jooble API', 'Vercel', 'Render'],
+    stack: [
+      'NestJS',
+      'Angular',
+      'TypeScript',
+      'TypeORM',
+      'PostgreSQL',
+      'PostGIS',
+      'Neon',
+      'Google Maps API',
+      'Gmail API',
+      'Jooble API',
+      'Vercel',
+      'Render',
+    ],
+    imagen: 'gestas/trabajoaqui.webp',
+    imagenAlt: 'Página de inicio de TrabajoAquí con las ofertas abiertas, empresas y comunas con ofertas en este momento',
     demo: 'https://trabajoaqui.vercel.app',
     // TODO: poner el link del repo y cambiar publico a true si lo dejo publico
     repos: [{ nombre: 'Repositorio', url: 'TODO', publico: false }],
@@ -75,6 +99,9 @@ export const GESTAS: Gesta[] = [
       'Arquitectura en capas: Angular, API Gateway, BFF y microservicios',
     ],
     stack: ['NestJS', 'Angular', 'TypeScript', 'AWS Cognito', 'JWT', 'RAWG API'],
+    // si saco una captura de la tienda la pongo aca (mientras no exista el archivo no se muestra nada)
+    imagen: 'gestas/vidalstore.webp',
+    imagenAlt: 'Catálogo de juegos de VidalStore',
     // estos repos estan privados, si los hago publicos cambio publico a true y aparecen los botones
     repos: [
       { nombre: 'Catálogo', url: 'https://github.com/pisKyxD/vidalstore-catalogo', publico: false },
