@@ -31,6 +31,13 @@
         </article>
       }
     </div>
+
+    <!-- boton del curriculum, solo aparece cuando pongo el pdf en perfil.cv -->
+    @if (perfil.cv) {
+      <div class="cv-extra">
+        <a [href]="perfil.cv" class="boton relleno" download>Descargar mi CV</a>
+      </div>
+    }
   </div>
 </section>
 

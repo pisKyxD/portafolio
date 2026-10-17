@@ -10,14 +10,18 @@ export const PERFIL = {
   // usuario de github, lo uso para el link y despues para las barras de lenguajes
   usuarioGithub: 'pisKyxD',
   github: 'https://github.com/pisKyxD',
-  // TODO: completar con mis links reales
   linkedin: 'https://www.linkedin.com/in/fabián-andrés-sánchez-vargas-4b6aba442',
   correo: 'fabian.asv.dev@gmail.com',
+
+  // mi curriculum en pdf, va en la carpeta public (ej: 'cv-fabian-sanchez.pdf')
+  // mientras este vacio no aparecen los botones de descargar cv
+  cv: '',
 
   // parrafos de la seccion sobre mi
   sobreMi: [
     'Soy Fabián, aunque en internet me conocen como pisKy. Estudio en Duoc UC y lo que más me gusta es construir lo que no se ve: APIs, microservicios, bases de datos y la infraestructura en la nube que hace que todo funcione.',
     'En la carrera he trabajado con arquitecturas de microservicios, configuración cloud en AWS, calidad y pruebas de software, y gestión de proyectos. Fuera de clases armo mis propios proyectos, como TrabajoAquí, para resolver problemas reales.',
+    'Y cuando no estoy con eso, estoy forjando Estandarte Roto, un juego táctico medieval que hago desde cero en Godot y que ya se puede jugar en itch.io. Programar algo por gusto me ha enseñado tanto como la carrera.',
   ],
 
   // la ficha del caballero que sale al lado del texto

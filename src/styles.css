@@ -123,3 +123,9 @@ a {
   background: var(--verde-claro);
   border-color: var(--verde-brillo);
 }
+/* boton de descargar cv debajo de las tarjetas de contacto */
+.cv-extra {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}

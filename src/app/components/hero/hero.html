@@ -112,6 +112,10 @@
     <div class="acciones">
       <a href="#gestas" class="boton relleno">Ver mis gestas</a>
       <a href="#contacto" class="boton">Enviar un cuervo</a>
+      <!-- solo aparece cuando pongo el pdf en perfil.cv -->
+      @if (perfil.cv) {
+        <a [href]="perfil.cv" class="boton" download>Descargar CV</a>
+      }
     </div>
   </div>
 
