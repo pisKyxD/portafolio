@@ -29,8 +29,12 @@ Proyecto Estandarte Roto (juego personal, en curso):
 
 Proyecto TrabajoAquí (proyecto personal, en curso):
 - Plataforma web de búsqueda de empleo para Santiago y comunas de la Región Metropolitana como Peñaflor, Talagante y Melipilla.
-- Tiene un mapa con las empresas que están contratando y un panel con sus ofertas, filtros por sueldo, turnos y jornada, seguimiento de postulaciones, rutas en transporte público hasta cada empresa, alertas por correo e importación automática de ofertas desde otras fuentes.
-- Usa PostgreSQL en Neon, Google Maps API, Gmail API y Jooble API. El frontend está en Vercel y el backend en Render.
+- Tiene un mapa con las empresas que están contratando (hecho con Mapbox) y un panel con sus ofertas, filtros por sueldo, turnos, jornada y minutos de viaje, seguimiento de postulaciones con agenda de entrevistas, y rutas en transporte público hasta cada empresa que dicen qué micro o metro tomar.
+- Manda alertas por correo: ofertas nuevas cerca de la casa, búsquedas guardadas, cambios en las postulaciones y entrevistas.
+- Las empresas pueden publicar una oferta sin crear cuenta antes, solo confirmando su correo. Las ofertas vencen a los 30 días y la empresa las renueva con un link firmado que le llega por correo. Cuando alguien postula, a la empresa le llega un aviso por correo.
+- Importa ofertas automáticamente desde otros portales y desde las páginas de empleo de empresas.
+- Tiene un panel de administración con métricas de uso.
+- Backend en NestJS con TypeORM y PostgreSQL con PostGIS en Neon; frontend en Angular. Usa Mapbox, Google Routes API y Gmail API. El frontend está en Vercel y el backend en Render.
 - Se puede visitar en trabajoaqui.vercel.app.
 
 Proyecto VidalStore (proyecto en dupla, en curso):

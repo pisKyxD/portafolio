@@ -15,6 +15,21 @@ const LIMITE_HORA = 20;
 const UN_MINUTO = 60 * 1000;
 const UNA_HORA = 60 * 60 * 1000;
 
+// tope de preguntas al dia para toda la funcion (sumando todos los visitantes)
+// si alguien cambia de ip para saltarse el limite de arriba, igual choca con este
+const LIMITE_DIA = 300;
+const UN_DIA = 24 * UNA_HORA;
+let preguntasHoy = { desde: Date.now(), total: 0 };
+
+// solo mi portafolio puede usar a sir bit. si alguien lo llama desde otra pagina el navegador manda
+// otro "Origin" y lo rechazo. en ORIGENES_PERMITIDOS (vercel) puedo agregar mas separados por coma
+const ORIGENES = [
+  'https://portafolio-tau-ten-62.vercel.app',
+  'http://localhost:4200',
+  'http://localhost:3000',
+  ...(process.env.ORIGENES_PERMITIDOS ?? '').split(',').map((o) => o.trim()).filter(Boolean),
+];
+
 // guardo cuando pregunto cada ip, vive en la memoria de la funcion
 // no es perfecto porque vercel puede levantar varias copias, pero frena a la mayoria
 const preguntasPorIp = new Map();
@@ -44,8 +59,27 @@ function superaLimite(ip) {
   return false;
 }
 
-// vercel manda la ip real del visitante en esta cabecera
+// cuenta la pregunta en el tope del dia. devuelve true si ya se paso
+function superaLimiteDia() {
+  const ahora = Date.now();
+  if (ahora - preguntasHoy.desde > UN_DIA) preguntasHoy = { desde: ahora, total: 0 };
+  if (preguntasHoy.total >= LIMITE_DIA) return true;
+  preguntasHoy.total++;
+  return false;
+}
+
+// el navegador manda solo el "Origin" en los POST: dice desde que pagina viene la pregunta
+// un script podria inventarlo, pero asi nadie puede poner a sir bit en su propia pagina
+function origenPermitido(req) {
+  const origen = req.headers.origin;
+  return typeof origen === 'string' && ORIGENES.includes(origen);
+}
+
+// ip del visitante. x-real-ip la pone vercel y el visitante no la puede cambiar
+// (x-forwarded-for queda de respaldo por si pruebo fuera de vercel)
 function obtenerIp(req) {
+  const real = req.headers['x-real-ip'];
+  if (typeof real === 'string' && real) return real.trim();
   const reenviada = req.headers['x-forwarded-for'];
   if (typeof reenviada === 'string' && reenviada) {
     return reenviada.split(',')[0].trim();
@@ -109,6 +143,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Solo se permite POST' });
   }
 
+  if (!origenPermitido(req)) {
+    return res.status(403).json({ error: 'Solo se puede preguntar desde el portafolio' });
+  }
+
   const clave = process.env.OPENROUTER_API_KEY;
   if (!clave) {
     return res.status(500).json({ error: 'Falta configurar la API key en el servidor' });
@@ -123,8 +161,8 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'La pregunta es muy larga' });
   }
 
-  // si el visitante pregunta demasiado, sir bit responde en personaje sin llamar a la IA
-  if (superaLimite(obtenerIp(req))) {
+  // si el visitante pregunta demasiado (o se lleno el tope del dia), sir bit responde en personaje sin llamar a la IA
+  if (superaLimite(obtenerIp(req)) || superaLimiteDia()) {
     return res.status(200).json({
       respuesta:
         'Tantas preguntas me han dejado sin aliento, viajero. Dame un momento para recuperar fuerzas, o escríbele directo a mi señor desde la sección Contacto.',
