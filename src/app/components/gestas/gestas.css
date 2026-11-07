@@ -63,64 +63,25 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: opacity 0.4s;
+  transition: transform 0.5s ease;
 }
 
-/* tapa que se ve antes de pasar el cursor (solo en computador) */
-.portada {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-family: var(--fuente-titulo);
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  color: var(--pergamino-oscuro);
-  background:
-    radial-gradient(circle at 50% 40%, rgba(201, 162, 74, 0.18), transparent 65%),
-    #2a2118;
-  transition: opacity 0.4s;
-  pointer-events: none;
+/* la captura se ve siempre; al pasar el cursor por la tarjeta se acerca un poquito */
+.pergamino:hover .marco img,
+.pergamino:hover .marco video {
+  transform: scale(1.04);
 }
 
-.portada-icono {
-  font-size: 2rem;
-  color: var(--dorado);
-}
-
-/* con mouse: la captura parte escondida y la tapa visible */
-.marco.al-pasar .portada {
-  display: flex;
-}
-
-.marco.al-pasar img,
-.marco.al-pasar video {
-  opacity: 0;
-}
-
-/* al pasar el cursor por la tarjeta (o llegar con tab) se cambia: se va la tapa y aparece la captura */
-.pergamino:hover .marco.al-pasar .portada,
-.pergamino:focus-within .marco.al-pasar .portada {
-  opacity: 0;
-}
-
-.pergamino:hover .marco.al-pasar img,
-.pergamino:hover .marco.al-pasar video,
-.pergamino:focus-within .marco.al-pasar img,
-.pergamino:focus-within .marco.al-pasar video {
-  opacity: 1;
-}
-
-/* si pidio menos animaciones, el cambio es instantaneo */
+/* si pidio menos animaciones, la imagen no se mueve */
 @media (prefers-reduced-motion: reduce) {
   .marco img,
-  .marco video,
-  .portada {
+  .marco video {
     transition: none;
+  }
+
+  .pergamino:hover .marco img,
+  .pergamino:hover .marco video {
+    transform: none;
   }
 }
 
@@ -157,6 +118,25 @@
 
 .bloque li {
   margin-bottom: 6px;
+}
+
+/* boton "Ver todas las hazañas" debajo de la lista */
+.ver-mas {
+  margin-top: 4px;
+  padding: 0;
+  font-family: var(--fuente-titulo);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--rojo);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.ver-mas:hover {
+  color: #a33636;
 }
 
 /* las tecnologias como sellos de cera */
@@ -197,6 +177,43 @@
 
 .links .link-principal {
   color: var(--rojo);
+}
+
+/* ---------- gesta destacada (trabajoaqui) ---------- */
+
+/* ocupa todo el ancho de la lista, las otras dos quedan lado a lado debajo */
+.pergamino.destacada {
+  grid-column: 1 / -1;
+}
+
+/* en pantallas anchas: titulo arriba, a la izquierda la imagen y las tecnologias, a la derecha el desafio
+   y las hazañas, y los links abajo a lo ancho */
+@media (min-width: 900px) {
+  .pergamino.destacada {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-areas:
+      'cabecera cabecera'
+      'marco desafio'
+      'marco hazanas'
+      'stack hazanas'
+      'links links';
+    grid-template-rows: auto auto 1fr auto auto;
+    column-gap: 36px;
+    row-gap: 20px;
+    align-items: start;
+  }
+
+  .pergamino.destacada > header { grid-area: cabecera; }
+  .pergamino.destacada > .marco { grid-area: marco; }
+  .pergamino.destacada > .desafio { grid-area: desafio; }
+  .pergamino.destacada > .hazanas { grid-area: hazanas; }
+  .pergamino.destacada > .stack { grid-area: stack; }
+  .pergamino.destacada > .links { grid-area: links; }
+
+  .pergamino.destacada h3 {
+    font-size: 2.2rem;
+  }
 }
 
 @media (max-width: 480px) {

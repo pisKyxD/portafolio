@@ -7,8 +7,10 @@
     <div class="lista">
       @for (gesta of gestas; track gesta.id) {
         <!-- al entrar el cursor (o el foco con tab) parte el video, al salir se pausa -->
+        <!-- la destacada (trabajoaqui) va arriba y a lo ancho -->
         <article
           class="pergamino"
+          [class.destacada]="gesta.destacada"
           (mouseenter)="reproducir($event)"
           (mouseleave)="pausar($event)"
           (focusin)="reproducir($event)"
@@ -21,13 +23,8 @@
           </header>
 
           <!-- captura o video del proyecto, si el archivo no existe no aparece -->
-          <!-- en computador esta tapada y aparece al pasar el cursor; en celular se ve siempre -->
           @if (mostrarImagen(gesta.id, gesta.imagen)) {
-            <figure class="marco" [class.al-pasar]="conMouse">
-              <div class="portada" aria-hidden="true">
-                <span class="portada-icono">⚔</span>
-                <span>Pasa el cursor para ver la gesta</span>
-              </div>
+            <figure class="marco">
               @if (esVideo(gesta.imagen!)) {
                 <!-- muted va dos veces: el atributo y la propiedad, si no algunos navegadores no lo dejan partir solo -->
                 <video
@@ -39,7 +36,7 @@
                   [muted]="true"
                   loop
                   playsinline
-                  preload="auto"
+                  preload="metadata"
                   (error)="imagenFallo(gesta.id)"
                 ></video>
               } @else {
@@ -54,18 +51,30 @@
             </figure>
           }
 
-          <div class="bloque">
+          <div class="bloque desafio">
             <h4>El desafío</h4>
             <p>{{ gesta.desafio }}</p>
           </div>
 
-          <div class="bloque">
+          <div class="bloque hazanas">
             <h4>Hazañas</h4>
-            <ul>
-              @for (hazana of gesta.hazanas; track $index) {
+            <ul [id]="'hazanas-' + gesta.id">
+              @for (hazana of hazanasVisibles(gesta); track $index) {
                 <li>{{ hazana }}</li>
               }
             </ul>
+            <!-- si tiene mas de 5, el resto se despliega con este boton -->
+            @if (hazanasOcultas(gesta) > 0) {
+              <button
+                type="button"
+                class="ver-mas"
+                [attr.aria-expanded]="expandidas().has(gesta.id)"
+                [attr.aria-controls]="'hazanas-' + gesta.id"
+                (click)="alternarHazanas(gesta.id)"
+              >
+                {{ expandidas().has(gesta.id) ? 'Ver menos' : 'Ver todas las hazañas (' + gesta.hazanas.length + ')' }}
+              </button>
+            }
           </div>
 
           <div class="stack">
