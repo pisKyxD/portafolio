@@ -59,11 +59,13 @@
   font-size: 1.05rem;
 }
 
+/* el rango ("Caballero", "Escudero") en versalitas con la fuente de los titulos */
 .rango {
-  font-size: 0.8rem;
+  font-family: var(--fuente-titulo);
+  font-size: 0.9rem;
   color: var(--dorado-claro);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-variant: small-caps;
 }
 
 /* la barra vacia, como una ranura de metal */

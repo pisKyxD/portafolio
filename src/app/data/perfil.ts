@@ -29,6 +29,6 @@ export const PERFIL = {
     { etiqueta: 'Casa de estudios', valor: 'Duoc UC' },
     { etiqueta: 'Especialidad', valor: 'Backend & Cloud' },
     { etiqueta: 'Reino', valor: 'Chile' },
-    { etiqueta: 'Arsenal principal', valor: 'NestJS · Angular · AWS' },
+    { etiqueta: 'Arsenal principal', valor: 'NestJS, Angular y AWS' },
   ],
 };

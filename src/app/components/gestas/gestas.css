@@ -24,12 +24,6 @@
     linear-gradient(180deg, var(--pergamino), var(--pergamino-oscuro));
   border: 1px solid #a8925f;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 0 40px rgba(120, 90, 40, 0.25);
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.pergamino:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), inset 0 0 40px rgba(120, 90, 40, 0.25);
 }
 
 .pergamino h3 {
@@ -63,26 +57,6 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform 0.5s ease;
-}
-
-/* la captura se ve siempre; al pasar el cursor por la tarjeta se acerca un poquito */
-.pergamino:hover .marco img,
-.pergamino:hover .marco video {
-  transform: scale(1.04);
-}
-
-/* si pidio menos animaciones, la imagen no se mueve */
-@media (prefers-reduced-motion: reduce) {
-  .marco img,
-  .marco video {
-    transition: none;
-  }
-
-  .pergamino:hover .marco img,
-  .pergamino:hover .marco video {
-    transform: none;
-  }
 }
 
 /* etiqueta de estado arriba a la derecha */
@@ -93,8 +67,8 @@
   padding: 4px 10px;
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-variant: small-caps;
   color: var(--pergamino);
   background: var(--verde);
 }
@@ -106,10 +80,29 @@
 .bloque h4 {
   font-family: var(--fuente-titulo);
   color: #4a3a25;
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  font-variant: small-caps;
   margin-bottom: 8px;
+}
+
+/* letra capital iluminada, como en los manuscritos: la primera letra del desafio va grande y dorada
+   sobre el verde de mi escudo, con marco dorado. es el detalle que hace que cada gesta parezca una cronica */
+.desafio p::first-letter {
+  float: left;
+  margin: 4px 10px 0 0;
+  padding: 6px 8px 2px;
+  font-family: 'Cinzel Decorative', var(--fuente-titulo);
+  font-size: 3.2em;
+  font-weight: 700;
+  line-height: 0.9;
+  color: var(--dorado-claro);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(111, 176, 127, 0.45), transparent 60%),
+    var(--verde);
+  border: 2px solid var(--dorado);
+  box-shadow: inset 0 0 0 2px #1d3a2a, 0 2px 6px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 0 #5a4313;
 }
 
 .bloque ul {
