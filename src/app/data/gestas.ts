@@ -22,10 +22,55 @@ export interface Gesta {
   demo?: string;
   // texto del boton de la demo, si no viene dice "Visitar el reino →"
   textoDemo?: string;
+  // la gesta principal: va arriba y a lo ancho (en computador con la imagen a un lado y el texto al otro)
+  destacada?: boolean;
   repos: Repo[];
 }
 
 export const GESTAS: Gesta[] = [
+  {
+    id: 'trabajoaqui',
+    titulo: 'TrabajoAquí',
+    subtitulo: 'Plataforma de búsqueda de empleo',
+    estado: 'En curso',
+    desafio:
+      'Encontrar pega cerca de casa en Santiago y en comunas como Peñaflor, Talagante o Melipilla es difícil: las ofertas están dispersas y nadie te dice cómo llegar.',
+    // las primeras 5 son las que se ven de entrada, el resto aparece con "Ver todas las hazañas"
+    hazanas: [
+      'Mapa con las empresas que están contratando (Mapbox) y un panel con sus ofertas',
+      'Rutas en transporte público hasta cada empresa, con la micro o el metro que hay que tomar',
+      'Importación automática de ofertas desde otros portales y desde las páginas de empleo de empresas',
+      'Las empresas pueden publicar sin crear cuenta: solo confirman su correo',
+      'Seguridad: importador protegido contra SSRF, revisión del contenido real de los archivos subidos, conexión cifrada y verificada a la base de datos y cierre de sesión por inactividad',
+      'Filtros por sueldo, turnos, jornada y minutos de viaje desde la casa',
+      'Seguimiento de postulaciones, agenda de entrevistas y alertas por correo (ofertas cerca y búsquedas guardadas)',
+      'Las ofertas vencen a los 30 días y se renuevan con un link firmado que llega por correo',
+      'Aviso por correo a la empresa cuando le postulan, juntando varias postulaciones en un solo correo',
+      'Sección aparte para ofertas de trabajo remoto',
+      'Panel de administración con métricas de uso de los últimos 30 días',
+    ],
+    stack: [
+      'NestJS',
+      'Angular',
+      'TypeScript',
+      'TypeORM',
+      'PostgreSQL',
+      'PostGIS',
+      'Neon',
+      'Mapbox',
+      'Google Routes API',
+      'Gmail API',
+      'Vercel',
+      'Render',
+    ],
+    imagen: 'gestas/trabajoaqui.webp',
+    imagenAlt: 'Página de inicio de TrabajoAquí con las ofertas abiertas, empresas y comunas con ofertas en este momento',
+    demo: 'https://trabajoaqui.vercel.app',
+    // mi proyecto principal: va arriba y a lo ancho
+    destacada: true,
+    // TODO: poner el link del repo y cambiar publico a true si lo dejo publico
+    repos: [{ nombre: 'Repositorio', url: 'TODO', publico: false }],
+  },
   {
     id: 'estandarte-roto',
     titulo: 'Estandarte Roto',
@@ -48,46 +93,6 @@ export const GESTAS: Gesta[] = [
     demo: 'https://pisky96.itch.io/estandarte-roto',
     textoDemo: 'Jugar en itch.io →',
     repos: [{ nombre: 'Repositorio', url: 'https://github.com/pisKyxD/juego-tactico', publico: false }],
-  },
-  {
-    id: 'trabajoaqui',
-    titulo: 'TrabajoAquí',
-    subtitulo: 'Plataforma de búsqueda de empleo',
-    estado: 'En curso',
-    desafio:
-      'Encontrar pega cerca de casa en Santiago y en comunas como Peñaflor, Talagante o Melipilla es difícil: las ofertas están dispersas y nadie te dice cómo llegar.',
-    hazanas: [
-      'Mapa con las empresas que están contratando (Mapbox) y un panel con sus ofertas',
-      'Sección aparte para ofertas de trabajo remoto',
-      'Filtros por sueldo, turnos, jornada y minutos de viaje desde la casa',
-      'Rutas en transporte público hasta cada empresa, con la micro o el metro que hay que tomar',
-      'Seguimiento de postulaciones, agenda de entrevistas y alertas por correo (ofertas cerca y búsquedas guardadas)',
-      'Las empresas pueden publicar sin crear cuenta: solo confirman su correo',
-      'Las ofertas vencen a los 30 días y se renuevan con un link firmado que llega por correo',
-      'Aviso por correo a la empresa cuando le postulan, juntando varias postulaciones en un solo correo',
-      'Importación automática de ofertas desde otros portales y desde las páginas de empleo de empresas',
-      'Panel de administración con métricas de uso de los últimos 30 días',
-      'Seguridad: importador protegido contra SSRF, revisión del contenido real de los archivos subidos, conexión cifrada y verificada a la base de datos y cierre de sesión por inactividad',
-    ],
-    stack: [
-      'NestJS',
-      'Angular',
-      'TypeScript',
-      'TypeORM',
-      'PostgreSQL',
-      'PostGIS',
-      'Neon',
-      'Mapbox',
-      'Google Routes API',
-      'Gmail API',
-      'Vercel',
-      'Render',
-    ],
-    imagen: 'gestas/trabajoaqui.webp',
-    imagenAlt: 'Página de inicio de TrabajoAquí con las ofertas abiertas, empresas y comunas con ofertas en este momento',
-    demo: 'https://trabajoaqui.vercel.app',
-    // TODO: poner el link del repo y cambiar publico a true si lo dejo publico
-    repos: [{ nombre: 'Repositorio', url: 'TODO', publico: false }],
   },
   {
     id: 'vidalstore',

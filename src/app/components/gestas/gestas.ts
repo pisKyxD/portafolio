@@ -1,5 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { GESTAS, Repo } from '../../data/gestas';
+import { GESTAS, Gesta, Repo } from '../../data/gestas';
+
+// cuantas hazañas se ven de entrada en cada gesta, el resto aparece con "Ver todas las hazañas"
+const HAZANAS_VISIBLES = 5;
 
 @Component({
   selector: 'app-gestas',
@@ -12,15 +15,37 @@ export class Gestas {
   // ids de las gestas cuya imagen no cargo (archivo que todavia no subo), esas no muestran el marco
   imagenesFallidas = signal<Set<string>>(new Set());
 
+  // ids de las gestas que tienen todas sus hazañas desplegadas
+  expandidas = signal<Set<string>>(new Set());
+
   // si la persona pidio menos animaciones en su sistema, el video no parte solo
   movimientoReducido = this.consulta('(prefers-reduced-motion: reduce)');
 
-  // en computador (con mouse) la captura aparece al pasar el cursor por la tarjeta
-  // en celular no existe "pasar el cursor", asi que ahi se ve siempre y el video parte solo
+  // la captura se ve siempre. si es video: en computador (con mouse) parte al pasar el cursor por la tarjeta,
+  // en celular no existe "pasar el cursor", asi que ahi parte solo
   conMouse = this.consulta('(hover: hover)');
 
   private consulta(media: string) {
     return typeof window !== 'undefined' && !!window.matchMedia?.(media).matches;
+  }
+
+  // las hazañas que se muestran: las primeras 5, o todas si la persona apreto "Ver todas"
+  hazanasVisibles(gesta: Gesta) {
+    return this.expandidas().has(gesta.id) ? gesta.hazanas : gesta.hazanas.slice(0, HAZANAS_VISIBLES);
+  }
+
+  // cuantas quedan escondidas (0 = no hace falta el boton)
+  hazanasOcultas(gesta: Gesta) {
+    return Math.max(0, gesta.hazanas.length - HAZANAS_VISIBLES);
+  }
+
+  alternarHazanas(id: string) {
+    this.expandidas.update((ids) => {
+      const nuevo = new Set(ids);
+      if (nuevo.has(id)) nuevo.delete(id);
+      else nuevo.add(id);
+      return nuevo;
+    });
   }
 
   // para no mostrar links que todavia no tengo

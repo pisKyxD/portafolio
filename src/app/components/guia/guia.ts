@@ -14,6 +14,14 @@ const SPRITE = {
 
 type NombreAnimacion = keyof typeof SPRITE.animaciones;
 
+// en pantallas angostas el globo tapaba los botones del inicio, asi que ahi sir bit parte cerrado
+// (queda el caballero chico en la esquina) y se abre solo cuando la persona baja a la siguiente seccion
+const CELULAR = '(max-width: 700px)';
+
+function esCelular() {
+  return typeof window !== 'undefined' && !!window.matchMedia?.(CELULAR).matches;
+}
+
 // lo que calculo de cada imagen cuando carga
 interface HojaCargada {
   columnas: number;
@@ -40,7 +48,9 @@ export class Guia implements OnDestroy {
   indice = signal(0);
   texto = signal('');
   escribiendo = signal(false);
-  abierto = signal(true);
+  abierto = signal(!esCelular());
+  // true mientras no se haya abierto solo en celular (se abre una sola vez, al bajar del inicio)
+  private abrirAlBajar = esCelular();
 
   // ---------- preguntas a la IA ----------
   // dialogo = va contando cosas por seccion, pregunta = la persona le escribe
@@ -211,6 +221,13 @@ export class Guia implements OnDestroy {
           if (entrada.isIntersecting && id !== this.seccionActual() && DIALOGOS[id]) {
             this.seccionActual.set(id);
             this.indice.set(0);
+            // en celular: la primera vez que sale del inicio, el caballero abre su globo solo
+            // (si la persona ya lo abrio o lo cerro a mano, no lo vuelvo a abrir)
+            if (this.abrirAlBajar && id !== 'inicio' && !this.abierto()) {
+              this.abrirAlBajar = false;
+              this.alternar();
+              continue;
+            }
             // si la persona esta preguntandole algo, no le cambio el texto
             if (this.modo() === 'dialogo') {
               this.mostrarLinea();
@@ -244,6 +261,8 @@ export class Guia implements OnDestroy {
   }
 
   alternar() {
+    // si la persona lo abre o cierra a mano, ya no lo abro solo despues
+    this.abrirAlBajar = false;
     this.abierto.update((abierto) => !abierto);
     if (this.abierto()) {
       if (this.modo() === 'dialogo') {
