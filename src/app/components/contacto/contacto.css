@@ -14,7 +14,8 @@
   margin-inline: auto;
 }
 
-/* cada tarjeta con el mismo marco de esquinas doradas */
+/* cada tarjeta con el mismo marco de esquinas doradas
+   (sin efecto al pasar el mouse: lo que se aprieta son los botones de adentro, no la tarjeta) */
 .canal {
   position: relative;
   display: flex;
@@ -25,12 +26,6 @@
   text-align: center;
   background: var(--fondo-2);
   border: 1px solid var(--borde);
-  transition: transform 0.25s, border-color 0.25s;
-}
-
-.canal:hover {
-  transform: translateY(-4px);
-  border-color: var(--dorado);
 }
 
 .canal::before,

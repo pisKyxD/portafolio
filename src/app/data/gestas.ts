@@ -20,7 +20,7 @@ export interface Gesta {
   // lo que lee un lector de pantalla en vez de la imagen
   imagenAlt?: string;
   demo?: string;
-  // texto del boton de la demo, si no viene dice "Visitar el reino →"
+  // texto del boton de la demo, si no viene dice "Visitar el reino"
   textoDemo?: string;
   // la gesta principal: va arriba y a lo ancho (en computador con la imagen a un lado y el texto al otro)
   destacada?: boolean;
@@ -91,7 +91,7 @@ export const GESTAS: Gesta[] = [
     imagenAlt: 'Portada de Estandarte Roto: un caballero con armadura y alabarda montado en un caballo acorazado',
     // ya esta publicado en itch.io, se puede jugar en el navegador
     demo: 'https://pisky96.itch.io/estandarte-roto',
-    textoDemo: 'Jugar en itch.io →',
+    textoDemo: 'Jugar en itch.io',
     repos: [{ nombre: 'Repositorio', url: 'https://github.com/pisKyxD/juego-tactico', publico: false }],
   },
   {
